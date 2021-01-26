@@ -226,7 +226,7 @@ export default {
       });
     },
     mMyPageRouter() {
-      this.$router.push("/5").catch((err) => {
+      this.$router.push("/myPage").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }
@@ -287,7 +287,7 @@ select:focus {
 }
 .navBox {
   width: 100%;
-  height: 70px;
+  height: 8%;
   display: flex;
   justify-content: center;
   background-color: white;
@@ -296,7 +296,7 @@ select:focus {
 }
 .navSize {
   width: 800px;
-  height: 70px;
+  height: 69px;
   position: fixed;
   background-color: white;
 }
@@ -365,6 +365,8 @@ select:focus {
   position: relative;
   top: 70px;
   margin-bottom: 1rem;
+  background: #eee;
+  min-height: 100%;
 }
 .o-none {
   opacity: 0;
@@ -375,7 +377,18 @@ select:focus {
 button:focus {
   outline: none;
 }
+.myPage {
+  z-index: 0 !important;
+}
 @media screen and (max-width: 900px) {
+  .AlramNav {
+    width: 100%;
+    height: 52px;
+    padding: 14px 16px;
+    display: flex !important;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+  }
   .sample {
     width: 100%;
     height: 2000px;

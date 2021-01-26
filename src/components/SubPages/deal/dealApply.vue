@@ -1,81 +1,106 @@
 <template>
-  <div class="w-100 h-100 myPage">
-    <div :class="modalClass">
-      <Modal title="" message="" />
-    </div>
-    <div class="AlramNav">
-      <span>
-        <button class="prevBtn" @click.prevent="prevBtn">
-          <img src="../../../img/prev.png" alt="" class="prevIcon" />
-        </button>
-      </span>
-      <span class="dealTitle">판매등록</span>
-      <span></span>
-    </div>
-    <div class="mt-3 alramsBox">
-      <span class="dealBoxTitle">DL(딜링)</span>
-      <div class="DLline" />
-      <div class="myDealPoint">
-        <span>보유수량</span>
-        <span>{{ priceToString($store.state.UserPoint.DilingPoint) }} DL</span>
-      </div>
-      <div>
-        <div class="myDealPoint">
-          <span>판매수량</span>
-          <input type="number" class="sellPoint" v-model="DLCount" />
-          <span class="sellPointDL">DL</span>
-        </div>
-        <div class="mt-2 mb-2 FlexEndBox">
-          <div class="DLplusBox">
-            <button @click.prevent="AllBtn">All</button>
-            <button @click.prevent="TenTh">+1만개</button>
-            <button @click.prevent="FiveTh">+5천개</button>
-            <button @click.prevent="OneTh">+1천개</button>
+  <div>
+    <div class="myPageSizeDealApply">
+      <div
+        class="MyPageBox"
+        style="
+        border-radius: 10px;
+      "
+      >
+        <div class="myPage">
+          <div :class="modalClass">
+            <Modal title="" message="" />
           </div>
-        </div>
-      </div>
+          <div class="AlramNav">
+            <span>
+              <button class="prevBtn" @click.prevent="prevBtn">
+                <img src="../../../img/prev.png" alt="" class="prevIcon" />
+              </button>
+            </span>
+            <span class="dealTitle">판매등록</span>
+            <span></span>
+          </div>
+          <div class="mt-3 alramsBox">
+            <span class="dealBoxTitle">DL(딜링)</span>
+            <div class="DLline" />
+            <div class="myDealPoint">
+              <span>보유수량</span>
+              <span
+                style="
+                width: 80%;
+                text-align: right;
+              "
+              >
+                {{ priceToString($store.state.UserPoint.DilingPoint) }}
+                DL
+              </span>
+            </div>
+            <div>
+              <div class="myDealPoint">
+                <span>판매수량</span>
+                <input type="number" class="sellPoint" v-model="DLCount" />
+                <div style="position: relative;">
+                  <span class="sellPointDL">DL</span>
+                </div>
+              </div>
+              <div class="mt-2 mb-2 FlexEndBox">
+                <div class="DLplusBox">
+                  <button @click.prevent="AllBtn">All</button>
+                  <button @click.prevent="TenTh">+1만개</button>
+                  <button @click.prevent="FiveTh">+5천개</button>
+                  <button @click.prevent="OneTh">+1천개</button>
+                </div>
+              </div>
+            </div>
 
-      <div>
-        <div class="mt-3 myDealPoint">
-          <span>개당가격</span>
-          <input
-            type="number"
-            class="KRWsellPoint"
-            v-model="DLPrice"
-            readonly
-          />
-          <div class="sellPointKRW">
-            <span style="font-size: 20px; color: #444;">KRW</span>
-            <button @click.prevent="minusBtn">-</button>
-            <button @click.prevent="plusBtn">+</button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="mt-3 myDealPoint">
-          <span>판매가</span>
-          <div>
-            <span style="font-size: 28px; color: #2269ff; font-weight: 700;">
-              {{ priceToString(DLCount * DLPrice) }}
-            </span>
-            <span style="font-size: 14px; color: #2269ff;">
-              KRW
-            </span>
-          </div>
-        </div>
-        <div class=" mb-2 FlexEndBox">
-          <div style="text-align: right; color: #888; font-weight: 300;">
-            <p>판매 수수료 : 10CLP</p>
-            <div v-if="$store.state.UserPoint.OriginalCoinPoint < 10">
-              <p>CLP가 부족합니다. CLP를 충전해주세요.</p>
+            <div>
+              <div class="mt-3 myDealPoint">
+                <span>개당가격</span>
+                <input
+                  type="number"
+                  class="KRWsellPoint"
+                  v-model="DLPrice"
+                  readonly
+                />
+                <div style="position: relative;">
+                  <div class="sellPointKRW">
+                    <span style="font-size: 20px; color: #444;">KRW</span>
+                    <button @click.prevent="minusBtn">-</button>
+                    <button @click.prevent="plusBtn">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="mt-3 myDealPoint">
+                <span>판매가</span>
+                <div>
+                  <span
+                    style="font-size: 28px; color: #2269ff; font-weight: 700;"
+                  >
+                    {{ priceToString(DLCount * DLPrice) }}
+                  </span>
+                  <span style="font-size: 14px; color: #2269ff;">
+                    KRW
+                  </span>
+                </div>
+              </div>
+              <div class=" mb-2 FlexEndBox">
+                <div style="text-align: right; color: #888; font-weight: 300;">
+                  <p>판매 수수료 : 10CLP</p>
+                  <div v-if="$store.state.UserPoint.OriginalCoinPoint < 10">
+                    <p>CLP가 부족합니다. CLP를 충전해주세요.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="mt-3 myDeal">
+                <button class="reset" @click.prevent="reset">초기화</button>
+                <button class="next">다음</button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div>
-        <div class="mt-3 myDeal">
-          <button class="reset" @click.prevent="reset">초기화</button>
-          <button class="next">다음</button>
         </div>
       </div>
     </div>
@@ -145,9 +170,9 @@ export default {
   background-color: #2269ff;
 }
 .myPage {
-  position: fixed;
+  position: inherit !important;
   background: white;
-  z-index: 5;
+  z-index: 0;
   top: 0;
 }
 .MyTitleS {
@@ -208,17 +233,13 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.myDealPoint > span:nth-of-type(1) {
+.myDealPoint > span {
+  width: 20%;
   font-size: 15px;
   color: #444;
 }
-.myDealPoint > span:nth-of-type(2) {
-  font-size: 20px;
-  color: #444;
-  font-weight: 600;
-}
 .sellPoint {
-  width: 75%;
+  width: 80%;
   height: 100%;
   border: 1px solid #ddd;
   padding: 0px 45px 0px 10px;
@@ -227,10 +248,10 @@ export default {
   color: #444;
 }
 .KRWsellPoint {
-  width: 75%;
+  width: 80% !important;
   height: 100%;
   border: 1px solid #ddd;
-  padding: 0px 120px 0px 10px;
+  padding: 0px 100px 0px 10px;
   text-align: right;
   font-size: 20px;
   color: #444;
@@ -241,14 +262,15 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .sellPointDL {
   position: absolute;
-  right: 35px;
-  font-weight: 400 !important;
+  right: 18px;
+  bottom: -13px;
   font-size: 16px;
 }
 .sellPointKRW {
   width: 110px;
   position: absolute;
-  right: 30px;
+  right: 6px !important;
+  bottom: -16px;
   display: flex;
   justify-content: space-around;
 }
@@ -305,5 +327,31 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+.myPageSizeDealApply {
+  padding: 0px 18px 0px;
+  height: 100%;
+  width: 48% !important;
+  position: fixed;
+  z-index: 6;
+  background-color: #eee;
+}
+@media screen and (max-width: 900px) {
+  .myPage {
+    position: fixed;
+    background: white;
+    z-index: 5;
+    top: 0;
+  }
+  .myPageSizeDealApply {
+    max-width: 720px;
+    min-height: calc(100vh - 53px);
+    padding: 0px 0px 0px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 6;
+    background-color: white;
+  }
 }
 </style>

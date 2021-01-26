@@ -13,6 +13,15 @@ import MyInfoChange from "@/components/MainPages/changeMyInfo";
 import MyPinChange from "@/components/SubPages/pin/6pin";
 import MyPinMake from "@/components/SubPages/pin/6pinMake";
 import dealApply from "@/components/SubPages/deal/dealApply";
+import companyInfo from "@/components/SubPages/companyInfo";
+import serviceFaq from "@/components/SubPages/serviceFaq";
+import terms from "@/components/SubPages/term";
+import ServiceTerms from "@/components/SubPages/terms/serviceTerms";
+import moneyTerms from "@/components/SubPages/terms/moneyTerms";
+import samja from "@/components/SubPages/terms/samja";
+import UserInfoLaw from "@/components/SubPages/terms/UserInfoLaw";
+import UserInfoPut from "@/components/SubPages/terms/UserInfoPut";
+import PointCharge from "@/components/SubPages/pointCharge";
 
 Vue.use(Router);
 
@@ -123,6 +132,75 @@ const router = new Router({
       component: Dlsend,
       meta: {
         title: "CashLink SendDL",
+      },
+    },
+    {
+      path: "/InfoCompany",
+      name: "InfoCompany",
+      component: companyInfo,
+      meta: {
+        title: "CashLink Company Info",
+      },
+    },
+    {
+      path: "/CenterService",
+      name: "CenterService",
+      component: serviceFaq,
+      meta: {
+        title: "CashLink Service Contact",
+      },
+    },
+    {
+      path: "/terms",
+      name: "terms",
+      component: terms,
+      meta: {
+        title: "CashLink Terms",
+      },
+      children: [
+        {
+          path: "ServiceTerms",
+          component: ServiceTerms,
+          meta: {
+            title: "CashLink ServiceTerms",
+          },
+        },
+        {
+          path: "moneyTerms",
+          component: moneyTerms,
+          meta: {
+            title: "CashLink moneyTerms",
+          },
+        },
+        {
+          path: "samja",
+          component: samja,
+          meta: {
+            title: "CashLink UserInfoLaw",
+          },
+        },
+        {
+          path: "UserInfoLaw",
+          component: UserInfoLaw,
+          meta: {
+            title: "CashLink UserInfoLaw",
+          },
+        },
+        {
+          path: "UserInfoPut",
+          component: UserInfoPut,
+          meta: {
+            title: "CashLink UserInfoLaw",
+          },
+        },
+      ],
+    },
+    {
+      path: "/pointCharge",
+      name: "/pointCharge",
+      component: PointCharge,
+      meta: {
+        title: "CashLink PointCharge",
       },
     },
   ],

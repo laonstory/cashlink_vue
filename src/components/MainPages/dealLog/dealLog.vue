@@ -1,112 +1,128 @@
 <template>
   <div>
-    <div class="homeBody">
-      <modals
-        :title="$store.state.popupTitle"
-        :message="$store.state.popupMsg"
-        :code="$store.state.code"
-        :Graystrong="$store.state.popupStrong"
-        :blackStrong="$store.state.popupblackStrong"
-        :class="$store.state.dealLogPopup"
-      />
-      <div class="MNavDeal">
-        <div>
-          <span>{{ dealLogTitle }}</span>
-        </div>
-      </div>
+    <div class="myPageSize">
+      <div class="MyPageBox" style="border-radius: 10px;">
+        <div class="homeBody">
+          <modals
+            :title="$store.state.popupTitle"
+            :message="$store.state.popupMsg"
+            :code="$store.state.code"
+            :Graystrong="$store.state.popupStrong"
+            :blackStrong="$store.state.popupblackStrong"
+            :class="$store.state.dealLogPopup"
+          />
+          <div class="MNavDeal">
+            <div>
+              <span>{{ dealLogTitle }}</span>
+            </div>
+          </div>
 
-      <div class="homeBodyBoxsell">
-        <div>
-          <div>
-            <div class="dealLogInnerRouter">
-              <div :class="dealLogSell" @click.prevent="deallogRouterSell">
-                <span>판매내역</span>
+          <div class="homeBodyBoxsell">
+            <div>
+              <div>
+                <div class="dealLogInnerRouter">
+                  <div :class="dealLogSell" @click.prevent="deallogRouterSell">
+                    <span>판매내역</span>
+                  </div>
+                  <div :class="dealLogBuy" @click.prevent="deallogRouterBuy">
+                    <span>구매내역</span>
+                  </div>
+                  <div :class="dealLogSend" @click.prevent="deallogRouterSend">
+                    <span>전송내역</span>
+                  </div>
+                </div>
+                <hr />
               </div>
-              <div :class="dealLogBuy" @click.prevent="deallogRouterBuy">
-                <span>구매내역</span>
+              <div class="LogGrid">
+                <select class="selectBoxDeal">
+                  <option value="All">전체(기간)</option>
+                  <option value="today">오늘</option>
+                  <option value="1week">1주일</option>
+                  <option value="1month">1개월</option>
+                  <option value="3month">3개월</option>
+                  <option value="6month">6개월</option>
+                  <option value="1year">1년</option>
+                </select>
+                <select class="selectBoxDeal">
+                  <option value="All">전체(상태)</option>
+                  <option value="wait">거래중</option>
+                  <option value="Succes">거래완료</option>
+                  <option value="finishOver">기간만료</option>
+                </select>
               </div>
-              <div :class="dealLogSend" @click.prevent="deallogRouterSend">
-                <span>전송내역</span>
+              <form>
+                <div class="mt-2 SearchBox">
+                  <input
+                    type="text"
+                    class="SearchInput2"
+                    placeholder="물품번호 검색"
+                  />
+                  <button type="submit" class="SearchIconOut">
+                    <img
+                      src="../../../img/search.png"
+                      alt=""
+                      class="SearchIconInner"
+                    />
+                  </button>
+                </div>
+              </form>
+              <div class="SearchDataTitleBox">
+                <span style="font-size: 14px;">전체결과</span>
+                <select v-model="SearchDataSet" class="SearchDataSet">
+                  <option value="All">최신순</option>
+                </select>
               </div>
+              <sell :class="dealSell" />
+              <buy :class="dealBuy" />
+              <send :class="dealSend" />
             </div>
-            <hr />
           </div>
-          <div class="LogGrid">
-            <select class="selectBoxDeal">
-              <option value="All">전체(기간)</option>
-              <option value="today">오늘</option>
-              <option value="1week">1주일</option>
-              <option value="1month">1개월</option>
-              <option value="3month">3개월</option>
-              <option value="6month">6개월</option>
-              <option value="1year">1년</option>
-            </select>
-            <select class="selectBoxDeal">
-              <option value="All">전체(상태)</option>
-              <option value="wait">거래중</option>
-              <option value="Succes">거래완료</option>
-              <option value="finishOver">기간만료</option>
-            </select>
-          </div>
-          <form>
-            <div class="mt-2 SearchBox">
-              <input
-                type="text"
-                class="SearchInput2"
-                placeholder="물품번호 검색"
-              />
-              <button type="submit" class="SearchIconOut">
-                <img
-                  src="../../../img/search.png"
-                  alt=""
-                  class="SearchIconInner"
-                />
-              </button>
-            </div>
-          </form>
-          <div class="SearchDataTitleBox">
-            <span style="font-size: 14px;">전체결과</span>
-            <select v-model="SearchDataSet" class="SearchDataSet">
-              <option value="All">최신순</option>
-            </select>
-          </div>
-          <sell :class="dealSell" />
-          <buy :class="dealBuy" />
-          <send :class="dealSend" />
         </div>
-      </div>
-    </div>
-    <div class="navBoxS">
-      <div class="navBarM">
-        <div class="mobileMenu">
-          <span :class="Mhome" @click.prevent="MhomeRouter">
-            <img src="../../../img/home.png" alt="" :class="MhomeNone" />
-            <img src="../../../img/home-color.png" alt="" :class="MhomeColor" />
-            홈
-          </span>
-          <span :class="MBuy" @click.prevent="MBuyRouter">
-            <img src="../../../img/deal.png" alt="" :class="MBuyNone" />
-            <img src="../../../img/deal-color.png" alt="" :class="MbuyColor" />
-            거래하기
-          </span>
-          <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
-            <img src="../../../img/list.png" alt="" :class="MBuyLogNone" />
-            <img
-              src="../../../img/list-color.png"
-              alt=""
-              :class="MBuyLogColor"
-            />
-            거래내역
-          </span>
-          <span :class="mMyPage" @click.prevent="mMyPageRouter">
-            <img src="../../../img/mypage.png" alt="" :class="mMyPageNone" />
-            <img
-              src="../../../img/mypage-color.png"
-              alt=""
-              :class="mMyPageColor"
-            />
-            마이페이지
-          </span>
+        <div class="navBoxS">
+          <div class="navBarM">
+            <div class="mobileMenu">
+              <span :class="Mhome" @click.prevent="MhomeRouter">
+                <img src="../../../img/home.png" alt="" :class="MhomeNone" />
+                <img
+                  src="../../../img/home-color.png"
+                  alt=""
+                  :class="MhomeColor"
+                />
+                홈
+              </span>
+              <span :class="MBuy" @click.prevent="MBuyRouter">
+                <img src="../../../img/deal.png" alt="" :class="MBuyNone" />
+                <img
+                  src="../../../img/deal-color.png"
+                  alt=""
+                  :class="MbuyColor"
+                />
+                거래하기
+              </span>
+              <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
+                <img src="../../../img/list.png" alt="" :class="MBuyLogNone" />
+                <img
+                  src="../../../img/list-color.png"
+                  alt=""
+                  :class="MBuyLogColor"
+                />
+                거래내역
+              </span>
+              <span :class="mMyPage" @click.prevent="mMyPageRouter">
+                <img
+                  src="../../../img/mypage.png"
+                  alt=""
+                  :class="mMyPageNone"
+                />
+                <img
+                  src="../../../img/mypage-color.png"
+                  alt=""
+                  :class="mMyPageColor"
+                />
+                마이페이지
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

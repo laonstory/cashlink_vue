@@ -1,25 +1,27 @@
 <template>
   <div>
-    <div class="homeBody">
-      <div class="homeBodyBox1">
-        <div class="MNav">
-          <div>
-            <img src="../../img/logo.png" alt="" class="logo" />
-            <!-- <span>CashLink</span> -->
-          </div>
-          <div>
-            <img
-              src="../../img/notice-new.png"
-              alt=""
-              class="notice"
-              @click.prevent="Alrams"
-            />
-            <!-- <span>알림</span> -->
-          </div>
-        </div>
-        <div class="slide">
-          <!-- prettier-ignore -->
-          <Slider
+    <div class="myPageSize">
+      <div class="MyPageBox" style="background: transparent;">
+        <div class="homeBody">
+          <div class="homeBodyBox1">
+            <div class="MNav">
+              <div>
+                <img src="../../img/logo.png" alt="" class="logo" />
+                <!-- <span>CashLink</span> -->
+              </div>
+              <div>
+                <img
+                  src="../../img/notice-new.png"
+                  alt=""
+                  class="notice"
+                  @click.prevent="Alrams"
+                />
+                <!-- <span>알림</span> -->
+              </div>
+            </div>
+            <div class="slide">
+              <!-- prettier-ignore -->
+              <Slider
             animation="fade"
             v-model="sliderValue"
             :duration="3000"
@@ -38,87 +40,111 @@
               </p> -->
             </SliderItem>
           </Slider>
-        </div>
-        <div class="mt-3 myPointApp">
-          <div class="PointBoxApp">
-            <div class="PointStatusApp">
-              <small style="font-size: 14px;">내 포인트</small>
-              <span style="font-size: 20px; font-weight: 600;"
-                >{{ $store.state.UserPoint.CointPoint }}CLP</span
-              >
             </div>
-            <div class="chargeBox">
-              <span>충전하기 ></span>
+            <div class="mt-3 myPointApp">
+              <div class="PointBoxApp">
+                <div class="PointStatusApp">
+                  <small style="font-size: 14px;">내 포인트</small>
+                  <span style="font-size: 20px; font-weight: 600;"
+                    >{{ $store.state.UserPoint.CointPoint }}CLP</span
+                  >
+                </div>
+                <div class="chargeBox" @click.prevent="pointCharge">
+                  <span>충전하기 ></span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 MyDl">
+              <div class="MydlBox">
+                <div class="DLTitle">
+                  <img src="../../img/dl_point.png" class="dlCoinHomeImg" />
+                  <div class="DLTitleInner">
+                    <span
+                      style="font-weight: 600; font-size: 14px; color: #2169FF"
+                    >
+                      디엘(DL)
+                    </span>
+                    <small style="color: #858585">{{
+                      $store.state.UserPoint.DilingID
+                    }}</small>
+                  </div>
+                </div>
+                <div class="DLCoin">
+                  <div class="d-flex" style="color: #2169FF;">
+                    <p style="font-weight: 500; font-size: 35px;">
+                      {{ $store.state.UserPoint.DilingPoint }}
+                    </p>
+                    <small class="DLStart ml-1">DL</small>
+                  </div>
+                </div>
+                <div class="SendDL">
+                  <div
+                    class="d-flex w-100"
+                    style="justify-content: space-around;"
+                  >
+                    <small style="color: #858585; cursor: pointer;">
+                      <img
+                        src="../../img/export.png"
+                        class="dlCoinHomeImgS mr-2"
+                      />
+                      딜링받기
+                    </small>
+                    <small
+                      style="color: #858585; cursor: pointer;"
+                      @click="DLSEND"
+                    >
+                      <img
+                        src="../../img/import.png"
+                        class="dlCoinHomeImgS mr-2"
+                      />
+                      딜링보내기
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 plusEtc" @click.prevent="preparingFunc">
+              +
             </div>
           </div>
         </div>
-        <div class="mt-3 MyDl">
-          <div class="MydlBox">
-            <div class="DLTitle">
-              <img src="../../img/dl_point.png" class="dlCoinHomeImg" />
-              <div class="DLTitleInner">
-                <span style="font-weight: 600; font-size: 14px; color: #2169FF">
-                  디엘(DL)
-                </span>
-                <small style="color: #858585">{{
-                  $store.state.UserPoint.DilingID
-                }}</small>
-              </div>
-            </div>
-            <div class="DLCoin">
-              <div class="d-flex" style="color: #2169FF;">
-                <p style="font-weight: 500; font-size: 35px;">
-                  {{ $store.state.UserPoint.DilingPoint }}
-                </p>
-                <small class="DLStart ml-1">DL</small>
-              </div>
-            </div>
-            <div class="SendDL">
-              <div class="d-flex w-100" style="justify-content: space-around;">
-                <small style="color: #858585; cursor: pointer;">
-                  <img src="../../img/export.png" class="dlCoinHomeImgS mr-2" />
-                  딜링받기
-                </small>
-                <small style="color: #858585; cursor: pointer;" @click="DLSEND">
-                  <img src="../../img/import.png" class="dlCoinHomeImgS mr-2" />
-                  딜링보내기
-                </small>
-              </div>
+        <div class="navBoxS">
+          <div class="navBarM">
+            <div class="mobileMenu">
+              <span :class="Mhome" @click.prevent="MhomeRouter">
+                <img src="../../img/home.png" alt="" :class="MhomeNone" />
+                <img
+                  src="../../img/home-color.png"
+                  alt=""
+                  :class="MhomeColor"
+                />
+                홈
+              </span>
+              <span :class="MBuy" @click.prevent="MBuyRouter">
+                <img src="../../img/deal.png" alt="" :class="MBuyNone" />
+                <img src="../../img/deal-color.png" alt="" :class="MbuyColor" />
+                거래하기
+              </span>
+              <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
+                <img src="../../img/list.png" alt="" :class="MBuyLogNone" />
+                <img
+                  src="../../img/list-color.png"
+                  alt=""
+                  :class="MBuyLogColor"
+                />
+                거래내역
+              </span>
+              <span :class="mMyPage" @click.prevent="mMyPageRouter">
+                <img src="../../img/mypage.png" alt="" :class="mMyPageNone" />
+                <img
+                  src="../../img/mypage-color.png"
+                  alt=""
+                  :class="mMyPageColor"
+                />
+                마이페이지
+              </span>
             </div>
           </div>
-        </div>
-        <div class="mt-3 plusEtc" @click.prevent="preparingFunc">
-          +
-        </div>
-      </div>
-    </div>
-    <div class="navBoxS">
-      <div class="navBarM">
-        <div class="mobileMenu">
-          <span :class="Mhome" @click.prevent="MhomeRouter">
-            <img src="../../img/home.png" alt="" :class="MhomeNone" />
-            <img src="../../img/home-color.png" alt="" :class="MhomeColor" />
-            홈
-          </span>
-          <span :class="MBuy" @click.prevent="MBuyRouter">
-            <img src="../../img/deal.png" alt="" :class="MBuyNone" />
-            <img src="../../img/deal-color.png" alt="" :class="MbuyColor" />
-            거래하기
-          </span>
-          <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
-            <img src="../../img/list.png" alt="" :class="MBuyLogNone" />
-            <img src="../../img/list-color.png" alt="" :class="MBuyLogColor" />
-            거래내역
-          </span>
-          <span :class="mMyPage" @click.prevent="mMyPageRouter">
-            <img src="../../img/mypage.png" alt="" :class="mMyPageNone" />
-            <img
-              src="../../img/mypage-color.png"
-              alt=""
-              :class="mMyPageColor"
-            />
-            마이페이지
-          </span>
         </div>
       </div>
     </div>
@@ -198,6 +224,9 @@ export default {
           console.log("중첩");
         }
       });
+    },
+    pointCharge() {
+      this.$router.push("/pointCharge");
     },
   },
   mounted() {

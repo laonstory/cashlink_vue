@@ -1,119 +1,137 @@
 <template>
   <div>
-    <router-view></router-view>
-    <div class="homeBody">
-      <div class="MNavDeal">
-        <div>
-          <span>거래하기</span>
-        </div>
-      </div>
+    <div class="myPageSize">
+      <div class="MyPageBox" style="background: transparent;">
+        <router-view></router-view>
+        <div class="homeBody">
+          <div class="MNavDeal">
+            <div>
+              <span>거래하기</span>
+            </div>
+          </div>
 
-      <div class="homeBodyBoxDeal">
-        <div class="myPoint">
-          <div class="PointBox">
-            <div class="PointStatus">
-              <img src="../../img/deal.png" alt="" class="pointBoxImg" />
-              <div class="h-75 ml-4">
-                <small>금일 딜링 (DL) 평균시세</small>
-                <h5 style="margin-bottom: 4px; color: #2169FF;">70 KRW</h5>
-                <div class="CoinInfo">
-                  <small>최소가 40KRW</small>
-                  <small>최고가 80KRW</small>
+          <div class="homeBodyBoxDeal">
+            <div class="myPoint">
+              <div class="PointBox">
+                <div class="PointStatus">
+                  <img src="../../img/deal.png" alt="" class="pointBoxImg" />
+                  <div class="h-75 ml-4">
+                    <small>금일 딜링 (DL) 평균시세</small>
+                    <h5 style="margin-bottom: 4px; color: #2169FF;">70 KRW</h5>
+                    <div class="CoinInfo">
+                      <small>최소가 40KRW</small>
+                      <small>최고가 80KRW</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="chargeBox" @click.prevent="dealApply">
+                  <span>판매 등록하기 ></span>
                 </div>
               </div>
             </div>
-            <div class="chargeBox" @click.prevent="dealApply">
-              <span>판매 등록하기 ></span>
+            <form class="formDeal">
+              <div class="mt-3 SearchBox">
+                <select v-model="searchSet" class="searchSet">
+                  <option value="ID">아이디</option>
+                  <option value="Phone">전화번호</option>
+                </select>
+                <input
+                  type="text"
+                  class="SearchInput"
+                  placeholder="검색하세요"
+                />
+                <button type="submit" class="SearchIconOut">
+                  <img
+                    src="../../img/search.png"
+                    alt=""
+                    class="SearchIconInner"
+                  />
+                </button>
+              </div>
+            </form>
+            <div class="SearchDataTitleBox" style="background: white;">
+              <span style="font-size: 14px;">전체결과</span>
+              <select v-model="SearchDataSet" class="SearchDataSet">
+                <option value="All">전체</option>
+                <option value="Interest">관심상품</option>
+              </select>
             </div>
-          </div>
-        </div>
-        <form>
-          <div class="mt-3 SearchBox">
-            <select v-model="searchSet" class="searchSet">
-              <option value="ID">아이디</option>
-              <option value="Phone">전화번호</option>
-            </select>
-            <input type="text" class="SearchInput" placeholder="검색하세요" />
-            <button type="submit" class="SearchIconOut">
-              <img src="../../img/search.png" alt="" class="SearchIconInner" />
-            </button>
-          </div>
-        </form>
-        <div class="SearchDataTitleBox">
-          <span style="font-size: 14px;">전체결과</span>
-          <select v-model="SearchDataSet" class="SearchDataSet">
-            <option value="All">전체</option>
-            <option value="Interest">관심상품</option>
-          </select>
-        </div>
-        <div class="SearchDataDeal">
-          <div v-for="(SearchDataItems, index) in searchData" :key="index">
-            <div
-              v-if="SearchDataItems.status === 'ON_SALE'"
-              class="DealClickNot"
-            >
-              <div class="SearchDataListBoxNot DealClickNot">
-                <div class="SearchDataFirst">
-                  <div class="SearchDataFirstInner">
-                    <span
-                      >{{ priceToString(Math.round(SearchDataItems.price)) }}KRW
-                    </span>
-                    /
-                    <span>1DL</span>
-                  </div>
-                  <span>
-                    <div v-if="SearchDataItems.isLike">
-                      <img
-                        src="../../img/heart-color.png"
-                        class="HeartIcon"
-                        @click.prevent="likeYour(SearchDataItems.id, index)"
-                      />
-                    </div>
-                    <div v-else>
-                      <img
-                        src="../../img/heart.png"
-                        class="HeartIcon"
-                        @click.prevent="likeYour(SearchDataItems.id, index)"
-                      />
-                    </div>
-                  </span>
-                </div>
-                <div class="SearchDataSecond">
-                  <div class="dlBox">
-                    <img src="../../img/dl-coin.png" alt="" class="dlcoinImg" />
-                    <div class="DLBuy ml-2">
+            <div class="SearchDataDeal" style="background: white;">
+              <div v-for="(SearchDataItems, index) in searchData" :key="index">
+                <div
+                  v-if="SearchDataItems.status === 'ON_SALE'"
+                  class="DealClickNot"
+                >
+                  <div class="SearchDataListBoxNot DealClickNot">
+                    <div class="SearchDataFirst">
+                      <div class="SearchDataFirstInner">
+                        <span
+                          >{{
+                            priceToString(Math.round(SearchDataItems.price))
+                          }}KRW
+                        </span>
+                        /
+                        <span>1DL</span>
+                      </div>
                       <span>
-                        {{
-                          priceToString(Math.round(SearchDataItems.quantity))
-                        }}
-                        DL
+                        <div v-if="SearchDataItems.isLike">
+                          <img
+                            src="../../img/heart-color.png"
+                            class="HeartIcon"
+                            @click.prevent="likeYour(SearchDataItems.id, index)"
+                          />
+                        </div>
+                        <div v-else>
+                          <img
+                            src="../../img/heart.png"
+                            class="HeartIcon"
+                            @click.prevent="likeYour(SearchDataItems.id, index)"
+                          />
+                        </div>
                       </span>
                     </div>
-                    <div class="DLBuy ml-3">
-                      <img
-                        src="../../img/won_point.png"
-                        alt=""
-                        class="dlcoinImg"
-                      />
-                      <span class="DLBuy ml-2">
-                        {{
-                          priceToString(
-                            Math.round(SearchDataItems.price) *
-                              Math.round(SearchDataItems.quantity)
-                          )
-                        }}
-                        KRW
-                      </span>
+                    <div class="SearchDataSecond">
+                      <div class="dlBox">
+                        <img
+                          src="../../img/dl-coin.png"
+                          alt=""
+                          class="dlcoinImg"
+                        />
+                        <div class="DLBuy ml-2">
+                          <span>
+                            {{
+                              priceToString(
+                                Math.round(SearchDataItems.quantity)
+                              )
+                            }}
+                            DL
+                          </span>
+                        </div>
+                        <div class="DLBuy ml-3">
+                          <img
+                            src="../../img/won_point.png"
+                            alt=""
+                            class="dlcoinImg"
+                          />
+                          <span class="DLBuy ml-2">
+                            {{
+                              priceToString(
+                                Math.round(SearchDataItems.price) *
+                                  Math.round(SearchDataItems.quantity)
+                              )
+                            }}
+                            KRW
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="SearchDataThird">
+                      <span>{{ SearchDataItems.seller.username }}</span>
                     </div>
                   </div>
                 </div>
-                <div class="SearchDataThird">
-                  <span>{{ SearchDataItems.seller.username }}</span>
-                </div>
-              </div>
-            </div>
-            <!-- prettier-ignore -->
-            <div
+                <!-- prettier-ignore -->
+                <div
               v-if="SearchDataItems.status === 'INIT'"
               class="DealClick"
               
@@ -174,8 +192,8 @@
                 </div>
               </div>
             </div>
-            <!-- prettier-ignore -->
-            <div
+                <!-- prettier-ignore -->
+                <div
               v-if="SearchDataItems.status === 'DONE'"
               class="DealClick"
               
@@ -236,38 +254,48 @@
                 </div>
               </div>
             </div>
-            <div></div>
+                <div></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="navBoxS">
-      <div class="navBarM">
-        <div class="mobileMenu">
-          <span :class="Mhome" @click.prevent="MhomeRouter">
-            <img src="../../img/home.png" alt="" :class="MhomeNone" />
-            <img src="../../img/home-color.png" alt="" :class="MhomeColor" />
-            홈
-          </span>
-          <span :class="MBuy" @click.prevent="MBuyRouter">
-            <img src="../../img/deal.png" alt="" :class="MBuyNone" />
-            <img src="../../img/deal-color.png" alt="" :class="MbuyColor" />
-            거래하기
-          </span>
-          <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
-            <img src="../../img/list.png" alt="" :class="MBuyLogNone" />
-            <img src="../../img/list-color.png" alt="" :class="MBuyLogColor" />
-            거래내역
-          </span>
-          <span :class="mMyPage" @click.prevent="mMyPageRouter">
-            <img src="../../img/mypage.png" alt="" :class="mMyPageNone" />
-            <img
-              src="../../img/mypage-color.png"
-              alt=""
-              :class="mMyPageColor"
-            />
-            마이페이지
-          </span>
+        <div class="navBoxS">
+          <div class="navBarM">
+            <div class="mobileMenu">
+              <span :class="Mhome" @click.prevent="MhomeRouter">
+                <img src="../../img/home.png" alt="" :class="MhomeNone" />
+                <img
+                  src="../../img/home-color.png"
+                  alt=""
+                  :class="MhomeColor"
+                />
+                홈
+              </span>
+              <span :class="MBuy" @click.prevent="MBuyRouter">
+                <img src="../../img/deal.png" alt="" :class="MBuyNone" />
+                <img src="../../img/deal-color.png" alt="" :class="MbuyColor" />
+                거래하기
+              </span>
+              <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
+                <img src="../../img/list.png" alt="" :class="MBuyLogNone" />
+                <img
+                  src="../../img/list-color.png"
+                  alt=""
+                  :class="MBuyLogColor"
+                />
+                거래내역
+              </span>
+              <span :class="mMyPage" @click.prevent="mMyPageRouter">
+                <img src="../../img/mypage.png" alt="" :class="mMyPageNone" />
+                <img
+                  src="../../img/mypage-color.png"
+                  alt=""
+                  :class="mMyPageColor"
+                />
+                마이페이지
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -462,6 +490,8 @@ export default {
   outline: none;
 }
 .SearchDataTitleBox {
+  padding: 10px 20px;
+  background: white;
   width: 100%;
   height: 50px;
   display: flex;
@@ -703,11 +733,36 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
+  padding: 20px 20px;
+  background: white;
+  border-radius: 0px 0px 10px 10px;
 }
 .homeBodyBox {
   top: 0 !important;
 }
+.formDeal {
+  margin-top: 2rem;
+  padding: 20px 20px;
+  background: white;
+  border-radius: 10px 10px 0px 0px;
+}
 @media screen and (max-width: 900px) {
+  .SearchDataDeal {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+  .SearchDataTitleBox {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+  .formDeal {
+    margin-top: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
   .myPoint {
     width: 100%;
     height: 104px !important;
