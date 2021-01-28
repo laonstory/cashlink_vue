@@ -1,5 +1,14 @@
 <template>
   <div>
+    <Modal
+      title="등록안내"
+      :sellCount="DLCount"
+      :CountPerPrice="DLPrice"
+      :price="DLCount * DLPrice"
+      tax="45"
+      code="sell"
+      :class="$store.state.dealSell.class"
+    />
     <div class="myPageSizeDealApply">
       <div
         class="MyPageBox"
@@ -8,9 +17,6 @@
       "
       >
         <div class="myPage">
-          <div :class="modalClass">
-            <Modal title="" message="" />
-          </div>
           <div class="AlramNav">
             <span>
               <button class="prevBtn" @click.prevent="prevBtn">
@@ -70,6 +76,18 @@
                   </div>
                 </div>
               </div>
+              <div class="mt-2 mb-2 FlexEndBox">
+                <div class="KRWBox">
+                  <div class="d-flex">
+                    <small>하한가: 70KRW</small>
+                    <img src="../../../img/min.png" alt="" class="maxMIN" />
+                  </div>
+                  <div class=" ml-2 d-flex">
+                    <small>상한가: 90KRW</small>
+                    <img src="../../../img/max.png" alt="" class="maxMIN" />
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <div class="mt-3 myDealPoint">
@@ -87,7 +105,7 @@
               </div>
               <div class=" mb-2 FlexEndBox">
                 <div style="text-align: right; color: #888; font-weight: 300;">
-                  <p>판매 수수료 : 10CLP</p>
+                  <p>판매 수수료 : {{ DLCount * DLPrice * 0.005 }} CLP</p>
                   <div v-if="$store.state.UserPoint.OriginalCoinPoint < 10">
                     <p>CLP가 부족합니다. CLP를 충전해주세요.</p>
                   </div>
@@ -97,7 +115,7 @@
             <div>
               <div class="mt-3 myDeal">
                 <button class="reset" @click.prevent="reset">초기화</button>
-                <button class="next">다음</button>
+                <button class="next" @click.prevent="sellMyDL">다음</button>
               </div>
             </div>
           </div>
@@ -109,6 +127,7 @@
 
 <script>
 import Modal from "./modal/modal";
+
 export default {
   components: {
     Modal,
@@ -117,7 +136,7 @@ export default {
   data() {
     return {
       DLCount: 100,
-      DLPrice: 40,
+      DLPrice: 70,
       modalClass: "d-none",
     };
   },
@@ -142,15 +161,15 @@ export default {
       this.DLCount += 1000;
     },
     plusBtn() {
-      if (this.DLPrice == 100) {
-        this.DLPrice = 100;
+      if (this.DLPrice >= 90) {
+        this.DLPrice = 90;
       } else {
         this.DLPrice += 10;
       }
     },
     minusBtn() {
-      if (this.DLPrice == 40) {
-        this.DLPrice = 40;
+      if (this.DLPrice <= 70) {
+        this.DLPrice = 70;
       } else {
         this.DLPrice -= 10;
       }
@@ -159,11 +178,18 @@ export default {
       this.DLCount = 100;
       this.DLPrice = 40;
     },
+    sellMyDL() {
+      this.$store.state.dealSell.class = "";
+    },
   },
 };
 </script>
 
 <style>
+.maxMIN {
+  width: 13px;
+  height: 13px;
+}
 .DLline {
   width: 100%;
   height: 2px;
@@ -290,6 +316,14 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.5rem;
 }
+.KRWBox {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  color: #888;
+  font-weight: 300;
+  font-size: 14px;
+}
 .FlexEndBox {
   width: 100%;
   display: flex;
@@ -331,7 +365,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .myPageSizeDealApply {
   padding: 0px 18px 0px;
   height: 100%;
-  width: 48% !important;
+  width: 670px !important;
   position: fixed;
   z-index: 6;
   background-color: #eee;
@@ -344,11 +378,10 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 0;
   }
   .myPageSizeDealApply {
-    max-width: 720px;
     min-height: calc(100vh - 53px);
     padding: 0px 0px 0px;
     height: 100%;
-    width: 100%;
+    width: 100% !important;
     position: fixed;
     z-index: 6;
     background-color: white;

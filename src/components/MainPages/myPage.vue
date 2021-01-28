@@ -61,7 +61,7 @@
             <button class="UserLoginBtn">회원가입</button>
           </div>
         </div>
-        <div class="SameMenuBox mt-5">
+        <div class="SameMenuBox mt-4">
           <div class="noticeMy" @click.prevent="noticeBtn">
             <div>
               <img src="../../img/cashlink-icon.png" class="cashlinkFavico" />
@@ -237,7 +237,7 @@ export default {
       });
     },
     MyPageSet() {
-      this.$router.push("/myPage/MyInfoChange");
+      this.$router.push("/MyInfoChange");
     },
     companyInfo() {
       this.$router.push("/InfoCompany");
@@ -313,7 +313,7 @@ export default {
 }
 .noticeMy {
   width: 100%;
-  height: 45px;
+  height: 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -370,7 +370,8 @@ export default {
   width: 100%;
   height: 101px;
   border-radius: 5px;
-  background-color: #2233aa;
+  /* background-color: #2169ff; */
+  background: linear-gradient(120deg, #3878ff, #2169ff);
   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 6px;
   padding: 0.6rem;
 }

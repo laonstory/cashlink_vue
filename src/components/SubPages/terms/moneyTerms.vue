@@ -39,7 +39,7 @@ export default {
   background: white;
   width: 100%;
   max-width: 655px;
-  height: 49%;
+  height: 43% !important;
   position: absolute;
 }
 .AlramNav {

@@ -76,6 +76,7 @@
               <button :class="purChase" @click.prevent="iamPort">
                 결제하기
               </button>
+              <button @click.prevent="testmode">테스트 모드</button>
             </div>
             <div class="mt-4 CautionPointCharge">
               <p>(오픈 전 내용 검토 필요)</p>
@@ -108,6 +109,7 @@
 </template>
 
 <script>
+import client from "../../auth/client";
 export default {
   components: {},
 
@@ -119,7 +121,7 @@ export default {
       CLPTooLow: "",
       credit: "credit",
       bank: "bank grayBox",
-      PurchaseOption: "",
+      PurchaseOption: "card",
       SamjaChk: false,
       purChase: "purChase eventNone",
       bankPurchase: false,
@@ -165,6 +167,70 @@ export default {
         this.purChase = "purChase background2269";
       }
     },
+    testmode() {
+      const data = new FormData();
+      data.append("amount", this.CLPCount.toString());
+      const LoginData = window.localStorage.getItem("auth");
+      client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+      client
+        .post("/api/markets/charge/cp", data)
+        .catch(() => {
+          alert("DB연결이 원할하지 않습니다.");
+        })
+        .then(() => {
+          alert("충전이 정상적으로 완료되었습니다.");
+          this.$router.push("/");
+          const auth = window.localStorage.getItem("auth");
+          const LoginData = auth;
+          client.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${LoginData}`;
+          client
+            .get("/api/users/me")
+            .catch((err) => {
+              console.log(err.response.data);
+              if (
+                err.response.data.resultCode ==
+                "api.error.credentials_is_invalid"
+              ) {
+                alert(
+                  "로그인 세션이 만료되었습니다.\n 다시 로그인 해주십시오."
+                );
+                document.location.replace(
+                  `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
+                );
+              }
+            })
+            .then((res) => {
+              this.$store.state.UserInfo.Name = res.data.data.user.name;
+              this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
+              this.$store.state.UserPoint.DilingID =
+                res.data.data.account[0].id;
+              this.$store.state.UserInfo.checkPin =
+                res.data.data.other.check_pin;
+              this.$store.state.UserInfo.SecurityLevel =
+                res.data.data.user.security_level;
+
+              let DilingPoint = res.data.data.account[0].quantity;
+              this.$store.state.UserPoint.DilingPoint = this.priceToString(
+                Math.round(DilingPoint)
+              );
+              this.$store.state.UserPoint.OriginalPoint = Math.round(
+                DilingPoint
+              );
+              this.$store.state.UserPoint.CoinPointID =
+                res.data.data.account[1].id;
+              let CointPoint = res.data.data.account[1].quantity;
+              this.$store.state.UserPoint.CointPoint = this.priceToString(
+                Math.round(CointPoint)
+              );
+              this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
+                CointPoint
+              );
+              this.$store.state.UserInfo.isLoginIn = true;
+            });
+        });
+    },
     iamPort() {
       if (!this.CLPCount) {
         alert("충전할 CLP포인트를 입력해주세요.");
@@ -189,6 +255,71 @@ export default {
             if (rsp.success) {
               //결제 성공
               alert("결제 성공");
+              const data = new FormData();
+              data.append("amount", this.CLPCount.toString());
+              const LoginData = window.localStorage.getItem("auth");
+              client.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${LoginData}`;
+              client
+                .post("/api/markets/charge/cp", data)
+                .catch(() => {
+                  alert("DB연결이 원할하지 않습니다.");
+                })
+                .then(() => {
+                  const auth = window.localStorage.getItem("auth");
+                  const LoginData = auth;
+                  client.defaults.headers.common[
+                    "Authorization"
+                  ] = `Bearer ${LoginData}`;
+                  client
+                    .get("/api/users/me")
+                    .catch((err) => {
+                      console.log(err.response.data);
+                      if (
+                        err.response.data.resultCode ==
+                        "api.error.credentials_is_invalid"
+                      ) {
+                        alert(
+                          "로그인 세션이 만료되었습니다.\n 다시 로그인 해주십시오."
+                        );
+                        document.location.replace(
+                          `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
+                        );
+                      }
+                    })
+                    .then((res) => {
+                      this.$store.state.UserInfo.Name = res.data.data.user.name;
+                      this.$store.state.UserInfo.UserForNum =
+                        res.data.data.user.id;
+                      this.$store.state.UserPoint.DilingID =
+                        res.data.data.account[0].id;
+                      this.$store.state.UserInfo.checkPin =
+                        res.data.data.other.check_pin;
+                      this.$store.state.UserInfo.SecurityLevel =
+                        res.data.data.user.security_level;
+
+                      let DilingPoint = res.data.data.account[0].quantity;
+                      this.$store.state.UserPoint.DilingPoint = this.priceToString(
+                        Math.round(DilingPoint)
+                      );
+                      this.$store.state.UserPoint.OriginalPoint = Math.round(
+                        DilingPoint
+                      );
+                      this.$store.state.UserPoint.CoinPointID =
+                        res.data.data.account[1].id;
+                      let CointPoint = res.data.data.account[1].quantity;
+                      this.$store.state.UserPoint.CointPoint = this.priceToString(
+                        Math.round(CointPoint)
+                      );
+                      this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
+                        CointPoint
+                      );
+                      this.$store.state.UserInfo.isLoginIn = true;
+                    });
+                  alert("충전이 정상적으로 완료되었습니다.");
+                  this.$router.push("/");
+                });
             } else {
               //결제 실패
               alert(

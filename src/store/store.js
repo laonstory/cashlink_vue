@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     UserInfo: {
-      UserForNum: "2Z4BM1QNR",
+      UserForNum: "",
       Name: "",
       UserID: "",
       access_token: "",
@@ -18,6 +18,12 @@ export const store = new Vuex.Store({
       isLoginIn: false,
       SecurityLevel: 0,
       checkPin: false,
+    },
+    dealSell: {
+      class: "d-none",
+    },
+    dealSellSuccess: {
+      class: "d-none",
     },
     UserPoint: {
       DilingID: "",
@@ -45,6 +51,8 @@ export const store = new Vuex.Store({
       mMyPageColor: "d-none",
     },
     dealPopUp: {
+      BuyID: "",
+      BuyPurID: "",
       BuyWaring: "d-none",
       BuyWaringBox: "BuyWaringBox",
       DLBuySuccess: "d-none",
@@ -56,7 +64,10 @@ export const store = new Vuex.Store({
         UserLaw: false,
       },
     },
+    RemoveDealID: "",
     dealLogPopup: "d-none",
+    BuyID: "",
+    BuyPurID: "",
     popupTitle: "신청취소 안내",
     // prettier-ignore
     popupMsg:"구매신청취소는<br>1일 1회만 가능하며, 이후에는<br>신청취소가 불가합니다.",

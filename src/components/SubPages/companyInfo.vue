@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="myPageSize">
-      <div class="MyPageBox" style="overflow: hidden; padding: 0;">
+      <div
+        class="MyPageBox"
+        style="overflow: hidden; padding: 0; border-radius: 10px;"
+      >
         <div>
           <div class="InfoNav">
             <span>
@@ -89,6 +92,7 @@ export default {
   border-bottom: 1px solid #ddd;
   position: absolute;
   z-index: 6;
+  border-radius: 10px 10px 0px 0px;
 }
 .prevIcon {
   width: 24px;
@@ -120,7 +124,8 @@ export default {
 .BackgroundCompanyInfo {
   width: 160%;
   height: 270px;
-  background-color: #2269ff;
+  /* background: #2269ff; */
+  background: linear-gradient(326deg, #2269ff, #a50aff);
   transform: skewY(3deg) translateY(-70px);
   box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 11px;
 }
@@ -136,7 +141,7 @@ export default {
 }
 .CompanyInfoName {
   position: absolute;
-  top: 90px;
+  top: 114px;
   z-index: 6;
   display: flex;
   flex-direction: column;
@@ -173,5 +178,15 @@ export default {
   font-size: 18px;
   font-weight: 600;
   color: #2269ff;
+}
+@media screen and (max-width: 900px) {
+  .CompanyInfoName {
+    position: absolute;
+    top: 90px;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+  }
 }
 </style>

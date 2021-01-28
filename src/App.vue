@@ -123,14 +123,19 @@
         </div>
       </div>
     </div> -->
+    <!-- <Loading :loading="LoadingStatus" /> -->
   </div>
 </template>
 
 <script>
 import client from "./auth/client";
+// import Loading from "./components/SubPages/loadingPage/loading";
+// import bus from "./utils/bus";
 export default {
   name: "App",
-  components: {},
+  components: {
+    // Loading,
+  },
   beforeMount() {
     const auth = window.localStorage.getItem("auth");
     if (auth) {
@@ -153,6 +158,7 @@ export default {
           this.$store.state.UserInfo.Name = res.data.data.user.name;
           this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
           this.$store.state.UserPoint.DilingID = res.data.data.account[0].id;
+          this.$store.state.UserInfo.UserForNum = res.data.data.account[0].id;
           this.$store.state.UserInfo.checkPin = res.data.data.other.check_pin;
           this.$store.state.UserInfo.SecurityLevel =
             res.data.data.user.security_level;
@@ -191,20 +197,37 @@ export default {
         "Microsoft Internet Explore를 지원하지 않습니다.\nChrome, Edge, Safari, Firefox 등의 브라우저를 이용해주세요."
       );
     }
+    // bus.$on("start:spinner", this.startSpinner);
+    // bus.$on("end:spinner", this.endSpinner);
   },
+  // beforeDestroy() {
+  //   bus.$off("start:spinner");
+  //   bus.$off("end:spinner");
+  // },
   data() {
     return {
       Mhome: "Color2233 ClickPointer",
       MBuyLog: "ClickPointer",
       MBuy: "ClickPointer",
       mMyPage: "ClickPointer",
+      LoadingStatus: false,
     };
   },
   methods: {
+    startSpinner() {
+      this.LoadingStatus = true;
+    },
+    endSpinner() {
+      this.LoadingStatus = false;
+    },
     priceToString(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     MhomeRouter() {
+      this.Mhome = "Color2233 ClickPointer";
+      this.MBuyLog = "ClickPointer";
+      this.MBuy = " ClickPointer";
+      this.mMyPage = " ClickPointer";
       this.$router.push("/").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
@@ -212,6 +235,10 @@ export default {
       });
     },
     MBuyLogRouter() {
+      this.Mhome = " ClickPointer";
+      this.MBuyLog = "Color2233 ClickPointer";
+      this.MBuy = " ClickPointer";
+      this.mMyPage = " ClickPointer";
       this.$router.push("/BuyLog").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
@@ -219,6 +246,10 @@ export default {
       });
     },
     MBuyRouter() {
+      this.Mhome = " ClickPointer";
+      this.MBuyLog = " ClickPointer";
+      this.MBuy = "Color2233 ClickPointer";
+      this.mMyPage = " ClickPointer";
       this.$router.push("/deal").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
@@ -226,6 +257,10 @@ export default {
       });
     },
     mMyPageRouter() {
+      this.Mhome = " ClickPointer";
+      this.MBuyLog = " ClickPointer";
+      this.MBuy = " ClickPointer";
+      this.mMyPage = "Color2233 ClickPointer";
       this.$router.push("/myPage").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
@@ -243,8 +278,35 @@ export default {
       if (!this.$store.state.dealPopUp.BuyDLExplain.UserLaw) {
         alert("개인정보 제 3자 제공 및 위탁 동의에 동의해주십시오.");
       } else {
-        this.$store.state.dealPopUp.DLBuySuccess = "DLBuySuccess";
-        this.$store.state.dealPopUp.BuyWaringBox = "d-none";
+        client
+          .post(`/api/markets/${this.$store.state.dealPopUp.BuyID}/buy`)
+          .then(() => {
+            this.$store.state.dealPopUp.DLBuySuccess = "DLBuySuccess";
+            this.$store.state.dealPopUp.BuyWaringBox = "d-none";
+          })
+          .catch((err) => {
+            if (
+              err.response.data.resultCode === "api.error.already_paid_item"
+            ) {
+              this.$store.state.dealPopUp.DLBuySuccess = "d-none";
+              alert(
+                "이미 판매가 완료된 상품입니다.\n다른 상품을 선택해주십시오."
+              );
+              this.$store.state.dealPopUp.BuyWaring = "d-none";
+            } else if (
+              err.response.data.resultCode === "api.error.cannot_be_purchase"
+            ) {
+              alert(err.response.data.resultMsg);
+              this.$store.state.dealPopUp.BuyWaring = "d-none";
+              this.$store.state.dealPopUp.DLBuySuccess = "d-none";
+            } else if (
+              err.response.data.resultCode === "api.error.already_in_progress"
+            ) {
+              alert(err.response.data.resultMsg);
+              this.$store.state.dealPopUp.BuyWaring = "d-none";
+              this.$store.state.dealPopUp.DLBuySuccess = "d-none";
+            }
+          });
       }
     },
     BuyDLFuncAllowNotify() {
@@ -254,6 +316,7 @@ export default {
       this.$store.state.dealPopUp.BuyDLExplain.DLCountPer = "";
       this.$store.state.dealPopUp.BuyDLExplain.Price = "";
       this.$store.state.dealPopUp.BuyDLExplain.UserLaw = false;
+      location.reload();
     },
   },
 };
@@ -287,7 +350,7 @@ select:focus {
 }
 .navBox {
   width: 100%;
-  height: 8%;
+  height: 9%;
   display: flex;
   justify-content: center;
   background-color: white;
@@ -296,7 +359,7 @@ select:focus {
 }
 .navSize {
   width: 800px;
-  height: 69px;
+  height: 9%;
   position: fixed;
   background-color: white;
 }
@@ -416,6 +479,7 @@ button:focus {
     position: fixed;
     z-index: 3;
     bottom: 0;
+    left: 0;
   }
 }
 </style>

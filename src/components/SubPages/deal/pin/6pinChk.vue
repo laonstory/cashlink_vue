@@ -1,9 +1,14 @@
 <template>
-  <div class="w-100 h-100">
+  <div class="w-100 h-100 PinBox">
+    <Modal
+      title="등록 완료"
+      :class="$store.state.dealSellSuccess.class"
+      :code="code"
+    />
     <div class="PinNav">
       <span>
         <button class="prevBtn" @click.prevent="prevBtn">
-          <img src="../../../img/prev.png" alt="" class="prevIcon" />
+          <img src="../../../../img/prev.png" alt="" class="prevIcon" />
         </button>
       </span>
       <span class="AlramTitle"></span>
@@ -67,7 +72,7 @@
             <button class="PinRemove" @click.prevent="CancelPin">취소</button>
             <button class="PinBtn" @click.prevent="Zero">0</button>
             <button class="PinRemove" @click.prevent="RemovePin">
-              <img src="../../../img/prev.png" class="prevIcon" />
+              <img src="../../../../img/prev.png" class="prevIcon" />
             </button>
           </div>
         </div>
@@ -77,24 +82,26 @@
 </template>
 
 <script>
-import client from "../../../auth/client";
+import client from "../../../../auth/client";
+import Modal from "./modal";
 export default {
+  components: {
+    Modal,
+  },
   beforeMount() {},
   data() {
     return {
       PinNum: [],
       Pintext: "암호를 입력하세요.",
       check: false,
+      code: "",
     };
   },
+  props: ["amount", "price"],
   watch: {
     PinNum: function() {
       if (this.PinNum.length >= 6) {
-        if (this.check) {
-          alert("ㅇㅇ 나도 잘 입력했음. 이제 유출의 시간만 남았다! ");
-        } else {
-          this.PinChk();
-        }
+        this.PinChk();
       }
     },
   },
@@ -136,28 +143,34 @@ export default {
       this.PinNum.splice(0);
     },
     prevBtn() {
-      this.$router.go(-1);
+      this.$store.state.dealSell.class = "d-none";
+      this.$router.push("/");
     },
     PinChk() {
       let PinData = this.PinNum.join("");
       const LoginData = window.localStorage.getItem("auth");
       client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
       client
-        .get("/api/users/me/pin/duplicate", {
-          params: {
-            password: PinData,
-          },
+        .post("/api/markets/sell", {
+          type: "DILLING",
+          amount: this.amount,
+          price: this.price,
+          password: PinData,
+        })
+        .then((res) => {
+          if (res.data.result == 1) {
+            this.code = "sell";
+            this.$store.state.dealSellSuccess.class = "";
+          }
         })
         .catch((err) => {
           if (err.response.data.resultCode == "api.error.pin_not_match") {
             alert("핀번호가 올바르지 않습니다.\n다시 입력해주십시오.");
             this.PinNum.splice(0);
-          }
-        })
-        .then((res) => {
-          if (res.data.data.duplicate) {
-            this.check = true;
-            this.Pintext = "새 암호를 입력하세요.";
+          } else if (err.response.data.resultCode == "api.error.out_of_range") {
+            alert(
+              "상하한가 범위를 벗어났습니다.\n상하한가 범위는 70에서 90입니다."
+            );
             this.PinNum.splice(0);
           }
         });
@@ -167,6 +180,11 @@ export default {
 </script>
 
 <style>
+.PinBox {
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+}
 .PinChkBox {
   width: 200px;
   display: flex;

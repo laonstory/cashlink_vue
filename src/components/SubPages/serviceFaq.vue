@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="myPageSize">
-      <div class="MyPageBox">
+      <div class="MyPageBox" style="border-radius: 10px;">
         <div class="w-100 h-100">
           <div class="AlramNav">
             <span>
@@ -55,35 +55,46 @@
               </div>
             </div>
           </div>
-          <div v-if="FaqWrite" class="WriteFAQPost">
-            <div class="AlramNav">
-              <span>
-                <button class="prevBtn" @click.prevent="closeFAQWrite">
-                  <img src="../../img/close.png" alt="" class="prevIcon" />
-                </button>
-              </span>
-              <span class="AlramTitle">작성하기</span>
-              <span></span>
-            </div>
-            <div class="mt-3 alramsBox">
-              <div class="FAQwriteTitle">
-                <small>제목</small>
-                <input type="text" class="titleUserFaq" v-model="sendTitle" />
+          <div
+            v-if="FaqWrite"
+            class="myPageSize"
+            style="position: absolute;
+                  z-index: 9;
+                  width: 100%;
+                  left: 0;
+                  border-radius: 10px;
+                  top: 0px;"
+          >
+            <div class="MyPageBox" style="border-radius: 10px;">
+              <div class="AlramNav">
+                <span>
+                  <button class="prevBtn" @click.prevent="closeFAQWrite">
+                    <img src="../../img/close.png" alt="" class="prevIcon" />
+                  </button>
+                </span>
+                <span class="AlramTitle">작성하기</span>
+                <span></span>
               </div>
-              <div class="mt-3 FAQwriteTitle">
-                <small>내용</small>
-                <textarea
-                  cols="30"
-                  rows="10"
-                  class="textUserFaq"
-                  v-model="sendTextarea"
-                >
-                </textarea>
-              </div>
-              <div class="mt-3">
-                <button class="WriteFAQ" @click.prevent="sendFaq">
-                  보내기
-                </button>
+              <div class="mt-3 alramsBox">
+                <div class="FAQwriteTitle">
+                  <small>제목</small>
+                  <input type="text" class="titleUserFaq" v-model="sendTitle" />
+                </div>
+                <div class="mt-3 FAQwriteTitle">
+                  <small>내용</small>
+                  <textarea
+                    cols="30"
+                    rows="10"
+                    class="textUserFaq"
+                    v-model="sendTextarea"
+                  >
+                  </textarea>
+                </div>
+                <div class="mt-3">
+                  <button class="WriteFAQ" @click.prevent="sendFaq">
+                    보내기
+                  </button>
+                </div>
               </div>
             </div>
           </div>

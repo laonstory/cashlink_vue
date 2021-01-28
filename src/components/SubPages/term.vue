@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="myPageSize">
-      <div class="MyPageBox">
+      <div class="MyPageBox" style="border-radius: 10px;">
         <router-view></router-view>
         <div class="AlramNav">
           <span>

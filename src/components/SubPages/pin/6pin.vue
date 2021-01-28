@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 h-100">
+  <div class="w-100 h-100 PinBox">
     <div class="PinNav">
       <span>
         <button class="prevBtn" @click.prevent="prevBtn">
@@ -10,7 +10,7 @@
       <span></span>
     </div>
     <div class="PinsBox">
-      <div class="w-100 h-100" style="display: flex;align-items: center;">
+      <div class="w-100 h-100" style="display: flex;">
         <div class="PinBox">
           <div>
             <span>{{ Pintext }}</span>

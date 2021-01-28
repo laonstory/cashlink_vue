@@ -19,8 +19,8 @@
                     <small>금일 딜링 (DL) 평균시세</small>
                     <h5 style="margin-bottom: 4px; color: #2169FF;">70 KRW</h5>
                     <div class="CoinInfo">
-                      <small>최소가 40KRW</small>
-                      <small>최고가 80KRW</small>
+                      <small>최소가 70KRW</small>
+                      <small>최고가 90KRW</small>
                     </div>
                   </div>
                 </div>
@@ -130,6 +130,78 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  v-if="SearchDataItems.status === 'CANCEL'"
+                  class="DealClickNot"
+                >
+                  <div class="SearchDataListBoxNot DealClickNot">
+                    <div class="SearchDataFirst">
+                      <div class="SearchDataFirstInner">
+                        <span
+                          >{{
+                            priceToString(Math.round(SearchDataItems.price))
+                          }}KRW
+                        </span>
+                        /
+                        <span>1DL</span>
+                      </div>
+                      <span>
+                        <div v-if="SearchDataItems.isLike">
+                          <img
+                            src="../../img/heart-color.png"
+                            class="HeartIcon"
+                            @click.prevent="likeYour(SearchDataItems.id, index)"
+                          />
+                        </div>
+                        <div v-else>
+                          <img
+                            src="../../img/heart.png"
+                            class="HeartIcon"
+                            @click.prevent="likeYour(SearchDataItems.id, index)"
+                          />
+                        </div>
+                      </span>
+                    </div>
+                    <div class="SearchDataSecond">
+                      <div class="dlBox">
+                        <img
+                          src="../../img/dl-coin.png"
+                          alt=""
+                          class="dlcoinImg"
+                        />
+                        <div class="DLBuy ml-2">
+                          <span>
+                            {{
+                              priceToString(
+                                Math.round(SearchDataItems.quantity)
+                              )
+                            }}
+                            DL
+                          </span>
+                        </div>
+                        <div class="DLBuy ml-3">
+                          <img
+                            src="../../img/won_point.png"
+                            alt=""
+                            class="dlcoinImg"
+                          />
+                          <span class="DLBuy ml-2">
+                            {{
+                              priceToString(
+                                Math.round(SearchDataItems.price) *
+                                  Math.round(SearchDataItems.quantity)
+                              )
+                            }}
+                            KRW
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="SearchDataThird">
+                      <span>{{ SearchDataItems.seller.username }}</span>
+                    </div>
+                  </div>
+                </div>
                 <!-- prettier-ignore -->
                 <div
               v-if="SearchDataItems.status === 'INIT'"
@@ -158,7 +230,8 @@
                       1,
                       Math.round(SearchDataItems.price),
                       Math.round(SearchDataItems.price) *
-                      Math.round(SearchDataItems.quantity)
+                      Math.round(SearchDataItems.quantity),
+                      SearchDataItems.id
                     )"
                 >
                   <div class="d-flex">
@@ -195,10 +268,10 @@
                 <!-- prettier-ignore -->
                 <div
               v-if="SearchDataItems.status === 'DONE'"
-              class="DealClick"
+              class="DealClickNot"
               
             >
-              <div class="SearchDataListBox DealClick">
+              <div class="SearchDataListBoxNot DealClickNot">
                 <div class="SearchDataFirst">
                   <div class="SearchDataFirstInner">
                     <span>{{ priceToString(Math.round(SearchDataItems.price)) }}KRW </span>
@@ -214,15 +287,7 @@
                     </div>
                   </span> 
                 </div>
-                <div class="SearchDataSecond" 
-                  @click.prevent="
-                    BuyDLFunc(
-                      1,
-                      Math.round(SearchDataItems.price),
-                      Math.round(SearchDataItems.price) *
-                      Math.round(SearchDataItems.quantity)
-                    )"
-                >
+                <div class="SearchDataSecond">
                   <div class="d-flex">
                     <div class="DLBuy">
                       <img
@@ -256,6 +321,12 @@
             </div>
                 <div></div>
               </div>
+            </div>
+            <div v-if="limit > count">
+              <button @click.prevent="MoreDeal">더보기</button>
+            </div>
+            <div v-else class="mt-5 centerTextMore">
+              <p>더 이상 없습니다.</p>
             </div>
           </div>
         </div>
@@ -316,11 +387,15 @@ export default {
       })
       .then((res) => {
         this.searchData = this.searchData.concat(res.data.data.content);
+        this.limit = this.searchData.length;
+        this.count = res.data.data.paging.count;
       });
   },
   data() {
     return {
       page: 0,
+      count: 0,
+      limit: 0,
       clp: "0",
       searchSet: "ID",
       SearchDataSet: "All",
@@ -353,7 +428,8 @@ export default {
     priceToString(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    BuyDLFunc(DLBuyCount, DLCountPer, Price) {
+    BuyDLFunc(DLBuyCount, DLCountPer, Price, id) {
+      this.$store.state.dealPopUp.BuyID = id;
       this.$store.state.dealPopUp.BuyDLExplain.DLBuyCount = DLBuyCount;
       this.$store.state.dealPopUp.BuyDLExplain.DLCountPer = DLCountPer;
       this.$store.state.dealPopUp.BuyDLExplain.Price = Price;
@@ -391,11 +467,34 @@ export default {
     dealApply() {
       this.$router.push("/deal/apply");
     },
+    MoreDeal() {
+      client
+        .get("/api/markets", {
+          params: {
+            page: this.page + 1,
+            order: "RECENT|DESC",
+          },
+        })
+        .then((res) => {
+          this.searchData = this.searchData.concat(res.data.data.content);
+        });
+    },
   },
 };
 </script>
 
 <style>
+.centerTextMore {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #888;
+  height: 0px;
+  background: white;
+  border-radius: 0px 0px 10px 10px;
+}
 .CoinInfo {
   width: 170px;
   display: flex;
@@ -735,7 +834,7 @@ export default {
   grid-gap: 20px;
   padding: 20px 20px;
   background: white;
-  border-radius: 0px 0px 10px 10px;
+  /* border-radius: 0px 0px 10px 10px; */
 }
 .homeBodyBox {
   top: 0 !important;

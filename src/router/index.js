@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
+// import bus from "../utils/bus";
+// import { store } from "../store/store";
 import home from "@/components/MainPages/home.vue";
 import deal from "@/components/MainPages/deal.vue";
 import dealLog from "@/components/MainPages/dealLog/dealLog.vue";
@@ -35,6 +37,13 @@ const router = new Router({
       meta: {
         title: "CashLink Home",
       },
+      // beforeEnter: (to, from, next) => {
+      //   bus.$emit("start:spinner");
+      //   store
+      //     .dispatch("FETCH_LIST", to.name)
+      //     .then(() => next())
+      //     .catch((err) => console.log(err));
+      // },
     },
     {
       path: "/deal",
@@ -76,31 +85,27 @@ const router = new Router({
       meta: {
         title: "CashLink MyPage",
       },
-      children: [
-        {
-          path: "MyInfoChange",
-          component: MyInfoChange,
-          meta: {
-            title: "CashLink Info Change",
-          },
-          children: [
-            {
-              path: "6pin",
-              component: MyPinChange,
-              meta: {
-                title: "CashLink Pin Change",
-              },
-            },
-            {
-              path: "6pinMake",
-              component: MyPinMake,
-              meta: {
-                title: "CashLink Pin",
-              },
-            },
-          ],
-        },
-      ],
+    },
+    {
+      path: "/MyInfoChange",
+      component: MyInfoChange,
+      meta: {
+        title: "CashLink Info Change",
+      },
+    },
+    {
+      path: "/6pin",
+      component: MyPinChange,
+      meta: {
+        title: "CashLink Pin Change",
+      },
+    },
+    {
+      path: "/6pinMake",
+      component: MyPinMake,
+      meta: {
+        title: "CashLink Pin",
+      },
     },
     {
       path: "/notice",

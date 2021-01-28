@@ -1,103 +1,118 @@
 <template>
-  <div class="w-100 h-100 myPage">
-    <router-view></router-view>
-    <div class="AlramNav">
-      <span>
-        <button class="prevBtn" @click.prevent="prevBtn">
-          <img src="../../img/prev.png" alt="" class="prevIcon" />
-        </button>
-      </span>
-      <span class="AlramTitle">회원정보 수정</span>
-      <span></span>
-    </div>
-    <div class="mt-3 alramsBox">
-      <div class="w-100 h-100">
-        <div class="MyNameBox">
-          <div>
-            <div class="d-flex MyTitle">
-              <span class="MyName">
-                {{ $store.state.UserInfo.Name }}
-              </span>
-              <span>님</span>
-            </div>
-            <div>
-              <span style="font-size: 14px; color: #2169ff;"
-                >보안등급 {{ $store.state.UserInfo.SecurityLevel }} 등급</span
-              >
-            </div>
+  <div>
+    <div class="myPageSize">
+      <div class="MyPageBox" style="border-radius: 10px;">
+        <div class="myPage">
+          <router-view></router-view>
+          <div class="AlramNav">
+            <span>
+              <button class="prevBtn" @click.prevent="prevBtn">
+                <img src="../../img/prev.png" alt="" class="prevIcon" />
+              </button>
+            </span>
+            <span class="AlramTitle">회원정보 수정</span>
+            <span></span>
           </div>
-          <div>
-            <button class="logout" @click.prevent="logOut">로그아웃</button>
-          </div>
-        </div>
-        <div class="MyNameBox mt-4" @click.prevent="passwordChange">
-          <div>
-            <div class="d-flex MyTitleS">
-              <span>비밀번호 수정</span>
-            </div>
-          </div>
-          <div>
-            <img src="../../img/next.png" class="nextPng" />
-          </div>
-        </div>
-        <div
-          class="MyNameBox mt-4"
-          v-if="!$store.state.UserInfo.checkPin"
-          @click.prevent="MakePin"
-        >
-          <div>
-            <div class="d-flex MyTitleS">
-              <span>핀 암호 생성</span>
-            </div>
-          </div>
-          <div>
-            <img src="../../img/next.png" class="nextPng" />
-          </div>
-        </div>
-        <div
-          class="MyNameBox mt-4"
-          v-else-if="$store.state.UserInfo.checkPin"
-          @click.prevent="Pin"
-        >
-          <div>
-            <div class="d-flex MyTitleS">
-              <span>핀 암호 수정</span>
-            </div>
-          </div>
-          <div>
-            <img src="../../img/next.png" class="nextPng" />
-          </div>
-        </div>
-        <div class="MyNameBox mt-4" @click.prevent="meProof">
-          <div class="w-100">
-            <div class="d-flex MyTitle">
-              <small style="font-size: 12px; color: #2233aa">
-                본인인증
-              </small>
-            </div>
-            <div class="w-100 d-flex" style="justify-content: space-between;">
-              <span style="font-size: 16px; font-weight: 400;">
-                인증이 필요합니다.
-              </span>
-              <div>
-                <button class="logout">인증하기</button>
+          <div class="mt-3 alramsBox">
+            <div class="w-100 h-100">
+              <div class="MyNameBox">
+                <div>
+                  <div class="d-flex MyTitle">
+                    <span class="MyName">
+                      {{ $store.state.UserInfo.Name }}
+                    </span>
+                    <span>님</span>
+                  </div>
+                  <div>
+                    <span style="font-size: 14px; color: #2169ff;"
+                      >보안등급
+                      {{ $store.state.UserInfo.SecurityLevel }} 등급</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <button class="logout" @click.prevent="logOut">
+                    로그아웃
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="MyNameBox mt-4" @click.prevent="bankProof">
-          <div class="w-100">
-            <div class="d-flex MyTitle">
-              <small style="font-size: 12px; color: #2233aa">
-                계좌인증
-              </small>
-            </div>
-            <div class="w-100 d-flex" style="justify-content: space-between;">
-              <span style="font-size: 16px; font-weight: 400;">
-                인증이 필요합니다.
-              </span>
-              <div>
-                <button class="logout">인증하기</button>
+              <div class="MyNameBox mt-4" @click.prevent="passwordChange">
+                <div>
+                  <div class="d-flex MyTitleS">
+                    <span>비밀번호 수정</span>
+                  </div>
+                </div>
+                <div>
+                  <img src="../../img/next.png" class="nextPng" />
+                </div>
+              </div>
+              <div
+                class="MyNameBox mt-4"
+                v-if="!$store.state.UserInfo.checkPin"
+                @click.prevent="MakePin"
+              >
+                <div>
+                  <div class="d-flex MyTitleS">
+                    <span>핀 암호 생성</span>
+                  </div>
+                </div>
+                <div>
+                  <img src="../../img/next.png" class="nextPng" />
+                </div>
+              </div>
+              <div
+                class="MyNameBox mt-4"
+                v-else-if="$store.state.UserInfo.checkPin"
+                @click.prevent="Pin"
+              >
+                <div>
+                  <div class="d-flex MyTitleS">
+                    <span>핀 암호 수정</span>
+                  </div>
+                </div>
+                <div>
+                  <img src="../../img/next.png" class="nextPng" />
+                </div>
+              </div>
+              <div class="MyNameBox mt-4" @click.prevent="meProof">
+                <div class="w-100">
+                  <div class="d-flex MyTitle">
+                    <small style="font-size: 12px; color: #2233aa">
+                      본인인증
+                    </small>
+                  </div>
+                  <div
+                    class="w-100 d-flex"
+                    style="justify-content: space-between;"
+                  >
+                    <span style="font-size: 16px; font-weight: 400;">
+                      인증이 필요합니다.
+                    </span>
+                    <div>
+                      <button class="logout">인증하기</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="MyNameBox mt-4" @click.prevent="bankProof">
+                <div class="w-100">
+                  <div class="d-flex MyTitle">
+                    <small style="font-size: 12px; color: #2233aa">
+                      계좌인증
+                    </small>
+                  </div>
+                  <div
+                    class="w-100 d-flex"
+                    style="justify-content: space-between;"
+                  >
+                    <span style="font-size: 16px; font-weight: 400;">
+                      인증이 필요합니다.
+                    </span>
+                    <div>
+                      <button class="logout">인증하기</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -149,10 +164,10 @@ export default {
       }
     },
     Pin() {
-      this.$router.push("/myPage/MyInfoChange/6pin");
+      this.$router.push("/6pin");
     },
     MakePin() {
-      this.$router.push("/myPage/MyInfoChange/6pinMake");
+      this.$router.push("/6pinMake");
     },
     passwordChange() {
       alert("준비중인 기능입니다.");

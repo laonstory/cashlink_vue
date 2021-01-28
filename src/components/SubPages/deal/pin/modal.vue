@@ -1,31 +1,20 @@
 <template>
-  <div class="modalBack1">
-    <PinChk :class="PinChkStyle" :amount="sellCount" :price="CountPerPrice" />
+  <div class="modalBack2">
     <div @click.prevent="modalExit" class="clickBack" />
     <div class="modalBuy">
       <div class="p-3 h-75">
         <div class="Modaltitle">
           <p>{{ title }}</p>
         </div>
-        <div class="ModalDLSell">
-          <span>판매수량</span>
-          <span>{{ sellCount }} DL</span>
-          <span>개당가격</span>
-          <span>{{ CountPerPrice }} KRW</span>
-          <span>판매가</span>
-          <span>{{ price }} KRW</span>
-          <span>전송 수수료</span>
-          <span>{{ tax }} CLP</span>
+        <div class="ModalDLSell1">
+          <p>판매 등록이 <br />정상적으로 완료되었습니다.</p>
         </div>
-      </div>
-      <div class="exitBtn">
-        <div v-if="code == 'sell'" class="w-100 buyBtn">
-          <button class="modalButton grayBack" @click.prevent="modalExit">
-            취소
-          </button>
-          <button class="modalButton" @click.prevent="modalSure">
-            등록하기
-          </button>
+        <div class="exitBtn2">
+          <div v-if="code == 'sell'" class="w-100 buyBtn">
+            <button class="modalButton" @click.prevent="modalExit">
+              확인
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -33,11 +22,8 @@
 </template>
 
 <script>
-import PinChk from "../pin/6pinChk";
 export default {
-  components: {
-    PinChk,
-  },
+  components: {},
   data() {
     return {
       rejectSell: "not",
@@ -57,23 +43,23 @@ export default {
   ],
   methods: {
     modalExit() {
-      this.$store.state.dealSell.class = "d-none";
-    },
-    modalSure() {
-      this.PinChkStyle = "";
+      this.$store.state.dealSellSuccess.class = "d-none";
+      this.$router.push("/");
     },
   },
 };
 </script>
 
 <style>
-.ModalDLSell {
+.ModalDLSell1 {
   width: 100%;
   height: 50%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  font-size: 12px;
-  color: #888;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
 }
 .ModalDLSell > span:nth-child(2n) {
   text-align: right;
@@ -82,7 +68,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
-.modalBack1 {
+.modalBack2 {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -90,7 +76,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 13;
   left: 0;
   top: 0;
   /* transition: ease 0.5s; */
@@ -110,12 +96,12 @@ export default {
   border-radius: 10px;
   padding: 0.3rem;
 }
-.exitBtn {
+.exitBtn2 {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 20%;
+  height: 60%;
 }
 .modalButton {
   width: 64px;

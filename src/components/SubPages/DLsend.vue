@@ -1,74 +1,80 @@
 <template>
-  <div class="w-100 h-100">
-    <div class="AlramNav">
-      <span>
-        <button class="prevBtn" @click.prevent="prevBtn">
-          <img src="../../img/prev.png" alt="" class="prevIcon" />
-        </button>
-      </span>
-      <span class="AlramTitle">전송하기</span>
-      <span></span>
-    </div>
-    <div class="mt-3 alramsBox">
-      <div>
-        <span class="alramsBoxTitle1">받는사람</span>
-        <div class="DlsendLine mt-1" />
-        <div>
-          <div class="mt-2">
-            <select
-              v-model="searchUser"
-              class="DLSendSel mr-2"
-              @change.prevent="checkSel"
-            >
-              <option value="PHONE">연락처</option>
-              <option value="USERNAME">ID</option>
-              <option value="custom">직접입력</option>
-            </select>
-            <input
-              type="text"
-              :class="SearchInputDL"
-              v-model="SearchData"
-              :readOnly="readOnlyText1"
-            />
-            <button type="submit" class="SearchIconOut">
-              <img
-                src="../../img/search.png"
-                alt=""
-                class="SearchIconInner"
-                @click.prevent="SearchUser"
-              />
-            </button>
+  <div>
+    <div class="myPageSize">
+      <div class="MyPageBox" style="border-radius: 10px;">
+        <div class="w-100 h-100">
+          <div class="AlramNav">
+            <span>
+              <button class="prevBtn" @click.prevent="prevBtn">
+                <img src="../../img/prev.png" alt="" class="prevIcon" />
+              </button>
+            </span>
+            <span class="AlramTitle">전송하기</span>
+            <span></span>
           </div>
-          <form>
-            <input
-              type="text"
-              v-model="SearchModel"
-              :class="SearchDatainput"
-              :readOnly="readOnlyText2"
-            />
-          </form>
-        </div>
-      </div>
-      <div class="mt-4">
-        <span class="alramsBoxTitle1">디엘(DL)</span>
-        <div class="DlsendLine mt-1" />
-        <div>
-          <form>
-            <div class="mt-2 DLSendPoint">
-              <span>보유 수량</span>
-              <span>{{ $store.state.UserPoint.DilingPoint }} DL</span>
-              <span>전송 수량</span>
-              <input type="text" v-model="DLsendCount" />
+          <div class="mt-3 alramsBox">
+            <div>
+              <span class="alramsBoxTitle1">받는사람</span>
+              <div class="DlsendLine mt-1" />
+              <div>
+                <div class="mt-2">
+                  <select
+                    v-model="searchUser"
+                    class="DLSendSel mr-2"
+                    @change.prevent="checkSel"
+                  >
+                    <option value="PHONE">연락처</option>
+                    <option value="USERNAME">ID</option>
+                    <option value="custom">직접입력</option>
+                  </select>
+                  <input
+                    type="text"
+                    :class="SearchInputDL"
+                    v-model="SearchData"
+                    :readOnly="readOnlyText1"
+                  />
+                  <button type="submit" class="SearchIconOut">
+                    <img
+                      src="../../img/search.png"
+                      alt=""
+                      class="SearchIconInner"
+                      @click.prevent="SearchUser"
+                    />
+                  </button>
+                </div>
+                <form>
+                  <input
+                    type="text"
+                    v-model="SearchModel"
+                    :class="SearchDatainput"
+                    :readOnly="readOnlyText2"
+                  />
+                </form>
+              </div>
             </div>
-            <div class="DLsendBtnBox mt-3">
-              <button class="DLsendBtn BackGroundGray" type="reset">
-                초기화
-              </button>
-              <button class="DLsendBtn BackGroundBlue" type="submit">
-                다음
-              </button>
+            <div class="mt-4">
+              <span class="alramsBoxTitle1">디엘(DL)</span>
+              <div class="DlsendLine mt-1" />
+              <div>
+                <form>
+                  <div class="mt-2 DLSendPoint">
+                    <span>보유 수량</span>
+                    <span>{{ $store.state.UserPoint.DilingPoint }} DL</span>
+                    <span>전송 수량</span>
+                    <input type="text" v-model="DLsendCount" />
+                  </div>
+                  <div class="DLsendBtnBox mt-3">
+                    <button class="DLsendBtn BackGroundGray" type="reset">
+                      초기화
+                    </button>
+                    <button class="DLsendBtn BackGroundBlue" type="submit">
+                      다음
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

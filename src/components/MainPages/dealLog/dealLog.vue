@@ -135,6 +135,7 @@ import sell from "../dealLog/sell";
 import buy from "../dealLog/buy";
 import Send from "./send.vue";
 export default {
+  beforeMount() {},
   components: {
     modals,
     sell,
