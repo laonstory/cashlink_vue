@@ -90,7 +90,12 @@
             >
           </div>
           <div class="navNotify">
-            <img src="./img/notice-new.png" alt="" class="notice" />
+            <img
+              src="./img/notice-new.png"
+              alt=""
+              class="notice"
+              @click.prevent="Alrams"
+            />
           </div>
         </nav>
       </div>
@@ -214,6 +219,13 @@ export default {
     };
   },
   methods: {
+    Alrams() {
+      this.$router.push("/Alram").catch((err) => {
+        if (err.name === "NavigationDuplicated") {
+          console.log("중첩");
+        }
+      });
+    },
     startSpinner() {
       this.LoadingStatus = true;
     },
@@ -239,7 +251,7 @@ export default {
       this.MBuyLog = "Color2233 ClickPointer";
       this.MBuy = " ClickPointer";
       this.mMyPage = " ClickPointer";
-      this.$router.push("/BuyLog").catch((err) => {
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }
@@ -323,6 +335,9 @@ export default {
 </script>
 
 <style>
+body {
+  min-width: 390px;
+}
 * {
   font-family: "Noto Sans KR", sans-serif;
   margin: 0;
@@ -355,7 +370,7 @@ select:focus {
   justify-content: center;
   background-color: white;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
 }
 .navSize {
   width: 800px;

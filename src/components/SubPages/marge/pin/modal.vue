@@ -7,7 +7,7 @@
           <p>{{ title }}</p>
         </div>
         <div class="ModalDLSell1">
-          <p>판매 등록이 <br />정상적으로 완료되었습니다.</p>
+          <p>판매 수정이 <br />정상적으로 완료되었습니다.</p>
         </div>
         <div class="exitBtn2">
           <div v-if="code == 'sell'" class="w-100 buyBtn">

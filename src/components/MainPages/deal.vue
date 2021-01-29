@@ -14,7 +14,11 @@
             <div class="myPoint">
               <div class="PointBox">
                 <div class="PointStatus">
-                  <img src="../../img/deal.png" alt="" class="pointBoxImg" />
+                  <img
+                    src="../../img/Mask_Group.png"
+                    alt=""
+                    class="pointBoxImg"
+                  />
                   <div class="h-75 ml-4">
                     <small>금일 딜링 (DL) 평균시세</small>
                     <h5 style="margin-bottom: 4px; color: #2169FF;">70 KRW</h5>
@@ -444,7 +448,7 @@ export default {
       });
     },
     MBuyLogRouter() {
-      this.$router.push("/BuyLog").catch((err) => {
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }
@@ -669,7 +673,6 @@ export default {
 .pointBoxImg {
   width: 45px;
   height: 45px;
-  opacity: 0.3;
 }
 
 .dlcoinImg {
@@ -834,7 +837,7 @@ export default {
   grid-gap: 20px;
   padding: 20px 20px;
   background: white;
-  /* border-radius: 0px 0px 10px 10px; */
+  border-radius: 0px 0px 10px 10px;
 }
 .homeBodyBox {
   top: 0 !important;

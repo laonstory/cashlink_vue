@@ -1,22 +1,26 @@
 <template>
-  <div class="w-100 h-100">
-    <div class="AlramNav">
-      <span>
-        <button class="prevBtn" @click.prevent="prevBtn">
-          <img src="../../img/prev.png" alt="" class="prevIcon" />
-        </button>
-      </span>
-      <span class="AlramTitle">알람</span>
-      <span></span>
-    </div>
-    <div class="mt-3 alramsBox">
-      <span class="alramsBoxTitle">알람</span>
-      <div class="w-100 h-100">
-        <div v-if="!alramsItems" class="notingAlrams">
-          <span>내역이 없습니다.</span>
+  <div>
+    <div class="myPageSize">
+      <div class="MyPageBox" style="border-radius: 10px;">
+        <div class="AlramNav">
+          <span>
+            <button class="prevBtn" @click.prevent="prevBtn">
+              <img src="../../img/prev.png" alt="" class="prevIcon" />
+            </button>
+          </span>
+          <span class="AlramTitle">알람</span>
+          <span></span>
         </div>
-        <div v-else>
-          <span>내역 개발중</span>
+        <div class="mt-3 alramsBox">
+          <span class="alramsBoxTitle">알람</span>
+          <div class="w-100 h-100">
+            <div v-if="!alramsItems" class="notingAlrams">
+              <span>내역이 없습니다.</span>
+            </div>
+            <div v-else>
+              <span>내역 개발중</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

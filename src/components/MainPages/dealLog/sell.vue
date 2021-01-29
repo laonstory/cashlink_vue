@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="">
     <div class="gridSell">
       <div
         v-for="(SearchDataItems, index) in SampleData"
@@ -40,7 +40,7 @@
               <button class="removeBtn" @click.prevent="modalRemoveItem(SearchDataItems.id)">
                 삭제하기
               </button>
-              <button class="editBtn">수정하기</button>
+              <button class="editBtn" @click.prevent="PatchSell(SearchDataItems.id,SearchDataItems.quantity, SearchDataItems.price)">수정하기</button>
             </div>
           </div>
         </div>
@@ -131,14 +131,17 @@
           v-else-if="SearchDataItems.status == 'ON_SALE' && SearchDataItems.purchase.status === 'DEPOSIT_COMPLETED'"
         >
           <div class="SearchDataBox">
+            <div class="dealLogTitleSize">
             <div class="dealLogTitleBox">
-              <span class="BuyTitleSell"
-                >P{{ productCode(SearchDataItems.id) }}NK</span
-              >
+              <span class="BuyTitleSell">
+                P{{ productCode(SearchDataItems.id) }}NK
+              </span>
               <small class="BuyBirth">
                 등록일 : {{ momentDateStr(SearchDataItems.created_at) }}
               </small>
             </div>
+            <img src="../../../img/help.png" alt="" class="warnImg" @click.prevent="fakeDeposit">
+          </div>
             <div class="mt-2 BuyInfo">
               <span>결제 금액</span>
               <span style="font-size: 14px; font-weight: 500;">
@@ -284,6 +287,10 @@ export default {
     };
   },
   beforeMount() {
+    this.$store.state.dealLogSite.dealLogSell =
+      "w-33Log dealLogInnerRouterBorder fontBold";
+    this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
+    this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
     const LoginData = window.localStorage.getItem("auth");
     client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
     client
@@ -338,8 +345,8 @@ export default {
     BuyerInfo(name) {
       this.$store.state.dealLogPopup = "";
       this.$store.state.popupTitle = "구매자 정보";
-      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa;font-weight:bold;'>보안 2등급</span>`;
-      this.$store.state.popupStrong = "계좌따윈 뱃속에 넣어버린 사용자 입니다.";
+      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa'>보안 등급도 개발중</span>`;
+      this.$store.state.popupStrong = "개발중입니다.";
       this.$store.state.code = "buyerInfo";
     },
     // 판매 거절
@@ -373,7 +380,7 @@ export default {
           this.$store.state.dealLogPopup = "";
           this.$store.state.popupTitle = "거래 완료";
           this.$store.state.popupMsg = `
-          ${this.regexStr(DL)} DL이 ${this.regexStr(
+          ${this.regexStr(DL)} DL이<br> ${this.regexStr(
             Price
           )} KRW에 판매가 완료되었습니다.
           `;
@@ -414,6 +421,19 @@ export default {
           this.limit += res.data.data.markets.length;
           this.page += 1;
         });
+    },
+    fakeDeposit() {
+      this.$store.state.dealLogPopup = "";
+      this.$store.state.popupTitle = "거래 승인 안내";
+      this.$store.state.popupMsg = `거래승인 이후 회원님 계좌로의<br>구매자 입금내역을 확인하세요.`;
+      this.$store.state.popupStrong = "";
+      this.$store.state.code = "buyerInfo";
+    },
+    PatchSell(id, count, price) {
+      this.$store.state.PatchSell.sellID = id;
+      this.$store.state.PatchSell.count = count;
+      this.$store.state.PatchSell.price = price;
+      this.$router.push("/deal/patch");
     },
   },
 };

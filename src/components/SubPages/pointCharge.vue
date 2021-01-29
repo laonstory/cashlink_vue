@@ -67,16 +67,23 @@
           </div>
           <div class="mt-3">
             <div class="SamjaChk">
-              <input type="checkbox" v-model="SamjaChk" @change="SamjaChkBox" />
-              <small class="ml-2 SmajaChkBox">
+              <input
+                type="checkbox"
+                id="SamjaChk"
+                v-model="SamjaChk"
+                @change="SamjaChkBox"
+              />
+              <label class="ml-2 SmajaChkBox" for="SamjaChk">
                 개인정보 제 3자 제공 및 위탁 동의
-              </small>
+              </label>
             </div>
             <div class="mt-3">
               <button :class="purChase" @click.prevent="iamPort">
                 결제하기
               </button>
-              <button @click.prevent="testmode">테스트 모드</button>
+              <button @click.prevent="testmode" class="mt-3 TestBtn">
+                테스트 모드
+              </button>
             </div>
             <div class="mt-4 CautionPointCharge">
               <p>(오픈 전 내용 검토 필요)</p>
@@ -380,6 +387,7 @@ label {
   font-size: 12px;
   font-weight: 300;
   color: #888;
+  cursor: pointer;
 }
 .SamjaChk {
   width: 100%;
@@ -575,5 +583,16 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 12px;
   font-weight: 300;
   color: #444;
+}
+.TestBtn {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #ff2300;
+  border: none;
+  border-radius: 10px;
 }
 </style>

@@ -12,7 +12,7 @@
       </div>
       <div class="mt-3 alramsBox">
         <div class="w-100 h-100">
-          <p>전자금융거래의 기본 틀은 이것입니다.</p>
+          <p>{{ Text }}</p>
         </div>
       </div>
     </div>
@@ -20,7 +20,20 @@
 </template>
 
 <script>
+import client from "../../../auth/client";
 export default {
+  beforeMount() {
+    const LoginData = window.localStorage.getItem("auth");
+    client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+    client.get("/api/infos/terms/e-financial").then((res) => {
+      this.Text = res.data.data.data;
+    });
+  },
+  data() {
+    return {
+      Text: "",
+    };
+  },
   methods: {
     prevBtn() {
       this.$router.go(-1);
@@ -38,8 +51,8 @@ export default {
 .TermsSize {
   background: white;
   width: 100%;
-  max-width: 655px;
-  height: 43% !important;
+  max-width: 659px;
+  height: 50% !important;
   position: absolute;
 }
 .AlramNav {
@@ -80,5 +93,14 @@ export default {
   align-items: center;
   color: #888;
   font-weight: 400;
+}
+@media screen and (max-width: 900px) {
+  .TermsSize {
+    background: white;
+    width: 100%;
+    max-width: 695px;
+    height: 50% !important;
+    position: absolute;
+  }
 }
 </style>

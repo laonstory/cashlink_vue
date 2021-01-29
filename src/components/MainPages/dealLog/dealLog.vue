@@ -21,14 +21,29 @@
             <div>
               <div>
                 <div class="dealLogInnerRouter">
-                  <div :class="dealLogSell" @click.prevent="deallogRouterSell">
-                    <span>판매내역</span>
+                  <div
+                    :class="$store.state.dealLogSite.dealLogSell"
+                    @click.prevent="deallogRouterSell"
+                  >
+                    <span style="cursor: pointer">
+                      판매내역
+                    </span>
                   </div>
-                  <div :class="dealLogBuy" @click.prevent="deallogRouterBuy">
-                    <span>구매내역</span>
+                  <div
+                    :class="$store.state.dealLogSite.dealLogBuy"
+                    @click.prevent="deallogRouterBuy"
+                  >
+                    <span style="cursor: pointer">
+                      구매내역
+                    </span>
                   </div>
-                  <div :class="dealLogSend" @click.prevent="deallogRouterSend">
-                    <span>전송내역</span>
+                  <div
+                    :class="$store.state.dealLogSite.dealLogSend"
+                    @click.prevent="deallogRouterSend"
+                  >
+                    <span style="cursor: pointer">
+                      전송내역
+                    </span>
                   </div>
                 </div>
                 <hr />
@@ -72,9 +87,10 @@
                   <option value="All">최신순</option>
                 </select>
               </div>
-              <sell :class="dealSell" />
-              <buy :class="dealBuy" />
-              <send :class="dealSend" />
+              <!-- <sell :class="$store.state.dealLogSite.dealSell" />
+              <buy :class="$store.state.dealLogSite.dealBuy" />
+              <send :class="$store.state.dealLogSite.dealSend" /> -->
+              <router-view></router-view>
             </div>
           </div>
         </div>
@@ -131,24 +147,21 @@
 
 <script>
 import modals from "../../popup/modal";
-import sell from "../dealLog/sell";
-import buy from "../dealLog/buy";
-import Send from "./send.vue";
+// import sell from "../dealLog/sell";
+// import buy from "../dealLog/buy";
+// import Send from "./send.vue";
 export default {
   beforeMount() {},
   components: {
     modals,
-    sell,
-    buy,
-    Send,
+    // sell,
+    // buy,
+    // Send,
   },
 
   data() {
     return {
       dealLogTitle: "거래내역",
-      dealLogSell: "w-33Log dealLogInnerRouterBorder fontBold",
-      dealLogBuy: "w-33Log fontThin",
-      dealLogSend: "w-33Log fontThin",
       SearchDataSet: "All",
       popupTitle: "신청취소 안내",
       // prettier-ignore
@@ -156,9 +169,6 @@ export default {
       popupStrong: "취소하시겠습니까?",
       popupblackStrong: "",
       code: "",
-      dealSell: "",
-      dealBuy: "d-none",
-      dealSend: "d-none",
       Mhome: "ClickPointer",
       MhomeNone: "MainIconSize",
       MhomeColor: "d-none",
@@ -178,28 +188,46 @@ export default {
   },
   methods: {
     deallogRouterSell() {
-      this.dealSell = "";
-      this.dealBuy = "d-none";
-      this.dealSend = "d-none";
-      this.dealLogSell = "w-33Log dealLogInnerRouterBorder fontBold";
-      this.dealLogBuy = "w-33Log fontThin";
-      this.dealLogSend = "w-33Log fontThin";
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
+        if (err.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
+      this.$store.state.dealLogSite.dealSell = "";
+      this.$store.state.dealLogSite.dealBuy = "d-none";
+      this.$store.state.dealLogSite.dealSend = "d-none";
+      this.$store.state.dealLogSite.dealLogSell =
+        "w-33Log dealLogInnerRouterBorder fontBold";
+      this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
+      this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
     },
     deallogRouterBuy() {
-      this.dealSell = "d-none";
-      this.dealBuy = "";
-      this.dealSend = "d-none";
-      this.dealLogSell = "w-33Log fontThin";
-      this.dealLogBuy = "w-33Log dealLogInnerRouterBorder fontBold";
-      this.dealLogSend = "w-33Log fontThin";
+      this.$router.push("/BuyLog/DealBuy").catch((err) => {
+        if (err.name === "NavigaitonDuplicated") {
+          location.reload();
+        }
+      });
+      this.$store.state.dealLogSite.dealSell = "d-none";
+      this.$store.state.dealLogSite.dealBuy = "";
+      this.$store.state.dealLogSite.dealSend = "d-none";
+      this.$store.state.dealLogSite.dealLogSell = "w-33Log fontThin";
+      this.$store.state.dealLogSite.dealLogBuy =
+        "w-33Log dealLogInnerRouterBorder fontBold";
+      this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
     },
     deallogRouterSend() {
-      this.dealSell = "d-none";
-      this.dealBuy = "d-none";
-      this.dealSend = "";
-      this.dealLogSell = "w-33Log fontThin";
-      this.dealLogBuy = "w-33Log fontThin";
-      this.dealLogSend = "w-33Log dealLogInnerRouterBorder fontBold";
+      this.$router.push("/BuyLog/DealSend").catch((err) => {
+        if (err.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
+      this.$store.state.dealLogSite.dealSell = "d-none";
+      this.$store.state.dealLogSite.dealBuy = "d-none";
+      this.$store.state.dealLogSite.dealSend = "";
+      this.$store.state.dealLogSite.dealLogSell = "w-33Log fontThin";
+      this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
+      this.$store.state.dealLogSite.dealLogSend =
+        "w-33Log dealLogInnerRouterBorder fontBold";
     },
     modalIn() {
       this.$store.state.dealLogPopup = "";
@@ -219,7 +247,7 @@ export default {
       });
     },
     MBuyLogRouter() {
-      this.$router.push("/BuyLog").catch((err) => {
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }
@@ -342,7 +370,7 @@ export default {
   width: 100%;
   height: 113px;
   background: white;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px 1px;
   border-radius: 5px;
   padding: 0.7rem;
 }
@@ -350,7 +378,7 @@ export default {
   width: 100%;
   height: 113px;
   background: #e3e3e3;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px 1px;
   border-radius: 5px;
   padding: 0.7rem;
 }
@@ -390,7 +418,6 @@ export default {
 }
 .pointBoxImg {
   width: 45px;
-  opacity: 0.3;
 }
 
 .dlcoinImg {
@@ -467,7 +494,7 @@ hr {
   height: auto;
   padding: 0.7rem;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px 2px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px 1px;
   border-radius: 10px;
 }
 .BuyTitle {

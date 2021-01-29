@@ -113,6 +113,10 @@ export default {
     };
   },
   async beforeMount() {
+    this.$store.state.dealLogSite.dealLogSell = "w-33Log fontThin";
+    this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
+    this.$store.state.dealLogSite.dealLogSend =
+      "w-33Log dealLogInnerRouterBorder fontBold";
     const LoginData = window.localStorage.getItem("auth");
     client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
     await client
@@ -181,8 +185,8 @@ export default {
     sellerInfo(name) {
       this.$store.state.dealLogPopup = "";
       this.$store.state.popupTitle = "판매자 정보";
-      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa'>보안 2등급</span>`;
-      this.$store.state.popupStrong = "계좌따윈 뱃속에 넣어버린 사용자 입니다.";
+      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa'>보안 등급도 개발중</span>`;
+      this.$store.state.popupStrong = "개발중입니다.";
       this.$store.state.code = "buyerInfo";
     },
     fakeDeposit() {
@@ -242,7 +246,7 @@ export default {
   height: auto;
   padding: 0.7rem;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px 2px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px 1px;
   border-radius: 10px;
 }
 .SearchDataBox {
@@ -287,7 +291,7 @@ export default {
   height: 40px;
 }
 .DLpoint {
-  width: 65%;
+  width: 68%;
   height: 50px;
   display: flex;
   align-items: center;
@@ -300,8 +304,11 @@ export default {
   color: #888;
   font-weight: 400;
   font-size: 12px;
-  width: 35%;
+  position: relative;
+  z-index: 1;
+  margin-top: 0.2rem;
   display: flex;
+  width: 32%;
   justify-content: flex-end;
 }
 .DLExplain {

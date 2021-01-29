@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal
-      title="등록안내"
+      title="수정안내"
       :sellCount="DLCount"
       :CountPerPrice="DLPrice"
       :price="DLCount * DLPrice"
@@ -23,7 +23,7 @@
                 <img src="../../../img/prev.png" alt="" class="prevIcon" />
               </button>
             </span>
-            <span class="dealTitle">판매등록</span>
+            <span class="dealTitle">판매수정</span>
             <span></span>
           </div>
           <div class="mt-3 alramsBox">
@@ -135,14 +135,23 @@ export default {
 
   data() {
     return {
-      DLCount: 100,
-      DLPrice: 70,
+      DLCount: "",
+      DLPrice: "",
       modalClass: "d-none",
     };
   },
+  beforeMount() {
+    if (this.$store.state.PatchSell.sellID == "") {
+      alert("잘못된 접근입니다.");
+      this.$router.push("/");
+    } else {
+      this.DLCount = Math.round(this.$store.state.PatchSell.count);
+      this.DLPrice = Math.round(this.$store.state.PatchSell.price);
+    }
+  },
   methods: {
     prevBtn() {
-      this.$router.push("/deal");
+      this.$router.go(-1);
     },
     priceToString(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

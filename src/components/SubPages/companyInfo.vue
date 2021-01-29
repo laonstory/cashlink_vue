@@ -124,8 +124,8 @@ export default {
 .BackgroundCompanyInfo {
   width: 160%;
   height: 270px;
-  /* background: #2269ff; */
-  background: linear-gradient(326deg, #2269ff, #a50aff);
+  background: #2269ff;
+  /* background: linear-gradient(326deg, #2269ff, #a50aff); */
   transform: skewY(3deg) translateY(-70px);
   box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 11px;
 }

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="mt-3 gridSell">
+    <div class="gridSell">
       <div
         v-for="(SearchDataItems, index) in SampleData"
         :key="index"
-        class="mt-3 SearchDataBuy"
+        class="SearchDataBuy"
       >
         <!-- prettier-ignore -->
         <div
@@ -152,7 +152,7 @@
               {{ momentDateStr2(SearchDataItems.updated_at) }}</span
             >
           </div>
-          <div class="InitBtn">
+          <div class="ApprovalBtn2">
             <button class="removeBtn" @click.prevent="report(SearchDataItems.id, SearchDataItems.purchase.id)">
               판매자 신고
             </button>
@@ -267,6 +267,10 @@ import client from "../../../auth/client";
 import moment from "moment";
 export default {
   beforeMount() {
+    this.$store.state.dealLogSite.dealLogSell = "w-33Log fontThin";
+    this.$store.state.dealLogSite.dealLogBuy =
+      "w-33Log dealLogInnerRouterBorder fontBold";
+    this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
     const LoginData = window.localStorage.getItem("auth");
     client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
     client
@@ -329,8 +333,8 @@ export default {
     sellerInfo(name) {
       this.$store.state.dealLogPopup = "";
       this.$store.state.popupTitle = "판매자 정보";
-      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa'>보안 2등급</span>`;
-      this.$store.state.popupStrong = "계좌따윈 뱃속에 넣어버린 사용자 입니다.";
+      this.$store.state.popupMsg = `<span style='font-weight:bold'>${name}</span>님<br><span style='color:#2233aa'>보안 등급도 개발중</span>`;
+      this.$store.state.popupStrong = "개발중입니다.";
       this.$store.state.code = "buyerInfo";
     },
     fakeDeposit() {

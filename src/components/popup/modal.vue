@@ -7,7 +7,12 @@
           <p>{{ title }}</p>
         </div>
         <div class="ModalString">
-          <p v-html="message"></p>
+          <div v-if="$store.state.code == 'GiveMEDL'" class="CenterQR">
+            <vue-qrcode :value="Graystrong" width="100" type="image/png" />
+          </div>
+          <div v-else>
+            <p v-html="message"></p>
+          </div>
         </div>
         <div v-if="$store.state.code == 'reject'">
           <select v-model="rejectSell" class="selectModal">
@@ -30,6 +35,15 @@
             </option>
           </select>
         </div>
+        <div
+          v-else-if="$store.state.code == 'GiveMEDL'"
+          class="waringRepeat d-flex"
+          @click.prevent="CpMYID"
+          style="cursor: pointer; align-items: center; margin-top: 1rem;"
+        >
+          <img src="../../img/copyIco.png" alt="" class="CpIco" />
+          <input class="CopyID" :value="Graystrong" readonly id="CopyID" />
+        </div>
         <div v-else class="waringRepeat">
           <p>{{ Graystrong }}</p>
           <p>{{ blackStrong }}</p>
@@ -47,6 +61,11 @@
         >
           <button class="modalButton" @click.prevent="modalExit">
             확인
+          </button>
+        </div>
+        <div v-if="$store.state.code == 'GiveMEDL'" class="w-100 centerBtn">
+          <button class="modalButton" @click.prevent="modalExit">
+            닫기
           </button>
         </div>
         <div v-if="$store.state.code == 'buyerInfo'" class="w-100 centerBtn">
@@ -119,7 +138,11 @@
 
 <script>
 import client from "../../auth/client";
+import VueQrcode from "vue-qrcode";
 export default {
+  components: {
+    VueQrcode,
+  },
   data() {
     return {
       rejectSell: "사유선택",
@@ -143,7 +166,7 @@ export default {
           this.$store.state.popupMsg = "정상적으로 삭제되었습니다.";
           this.$store.state.popupStrong = "";
           this.$store.state.code = "removeSuccess";
-          this.$router.push("/BuyLog");
+          this.$router.push("/BuyLog//DealSell");
         });
     },
     modalRejectSuccess() {
@@ -281,7 +304,7 @@ export default {
           this.$store.state.popupMsg =
             "입금완료가<br>정삭적으로 처리되었습니다.";
           this.$store.state.popupStrong = "";
-          this.$store.state.code = "SureSuccess";
+          this.$store.state.code = "SureInfo";
         })
         .catch(() => {
           alert("입금이 완료되지 않았습니다. 관리자에게 문의해주세요.");
@@ -304,6 +327,13 @@ export default {
         .catch(() => {
           alert("취소가 완료되지 않았습니다. 관리자에게 문의해주세요.");
         });
+    },
+    CpMYID() {
+      let onShareID = document.getElementById("CopyID");
+      onShareID.select();
+      document.execCommand("copy");
+      onShareID.blur();
+      alert("ID가 복사되었습니다.");
     },
   },
 };
@@ -402,5 +432,22 @@ export default {
 }
 .grayBack {
   background-color: #888 !important;
+}
+.CpIco {
+  width: 12px;
+  height: 12px;
+}
+.CopyID {
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 35%;
+}
+.CenterQR {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

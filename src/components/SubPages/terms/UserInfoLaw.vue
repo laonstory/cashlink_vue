@@ -11,14 +11,27 @@
     </div>
     <div class="mt-3 alramsBox">
       <div class="w-100 h-100">
-        <p>서비스 이용약관의 기본 틀은 이것입니다.</p>
+        <p>{{ Text }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import client from "../../../auth/client";
 export default {
+  beforeMount() {
+    const LoginData = window.localStorage.getItem("auth");
+    client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+    client.get("/api/infos/terms/privacy").then((res) => {
+      this.Text = res.data.data.data;
+    });
+  },
+  data() {
+    return {
+      Text: "",
+    };
+  },
   methods: {
     prevBtn() {
       this.$router.go(-1);

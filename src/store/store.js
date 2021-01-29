@@ -22,6 +22,14 @@ export const store = new Vuex.Store({
     dealSell: {
       class: "d-none",
     },
+    dealLogSite: {
+      dealLogSell: "w-33Log dealLogInnerRouterBorder fontBold",
+      dealLogBuy: "w-33Log fontThin",
+      dealLogSend: "w-33Log fontThin",
+      dealSell: "",
+      dealBuy: "d-none",
+      dealSend: "d-none",
+    },
     dealSellSuccess: {
       class: "d-none",
     },
@@ -63,6 +71,11 @@ export const store = new Vuex.Store({
         tax: "10",
         UserLaw: false,
       },
+    },
+    PatchSell: {
+      sellID: "",
+      count: "",
+      price: "",
     },
     RemoveDealID: "",
     dealLogPopup: "d-none",

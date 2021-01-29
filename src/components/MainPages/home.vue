@@ -3,6 +3,14 @@
     <div class="myPageSize">
       <div class="MyPageBox" style="background: transparent;">
         <div class="homeBody">
+          <modals
+            :title="$store.state.popupTitle"
+            :message="$store.state.popupMsg"
+            :code="$store.state.code"
+            :Graystrong="$store.state.popupStrong"
+            :blackStrong="$store.state.popupblackStrong"
+            :class="$store.state.dealLogPopup"
+          />
           <div class="homeBodyBox1">
             <div class="MNav">
               <div>
@@ -19,28 +27,27 @@
                 <!-- <span>알림</span> -->
               </div>
             </div>
-            <div class="slide">
-              <!-- prettier-ignore -->
-              <Slider
-            animation="fade"
-            v-model="sliderValue"
-            :duration="3000"
-            :speed="1000"
-          >
-            <SliderItem
-              v-for="(i, index) in Slidelist"
-              :key="index"
-              @click="changeIndex(1)"
-              :style="i"
-            >
-              <!-- <p
-                style="line-height: 160px; font-size: 5rem; text-align: center;"
+            <Swiper class="swiper" :options="swiperOption">
+              <Swiper-slide
+                v-for="(SlideList, index) in Slidelist"
+                :key="index"
+                :class="SlideList.class"
+                @click="link(SlideList.link)"
               >
-                Page{{ index + 1 }}
-              </p> -->
-            </SliderItem>
-          </Slider>
-            </div>
+              </Swiper-slide>
+              <div
+                class="swiper-pagination swiper-pagination-white"
+                slot="pagination"
+              ></div>
+              <div
+                class="swiper-button-prev swiper-button-white"
+                slot="button-prev"
+              ></div>
+              <div
+                class="swiper-button-next swiper-button-white"
+                slot="button-next"
+              ></div>
+            </Swiper>
             <div class="mt-3 myPointApp">
               <div class="PointBoxApp">
                 <div class="PointStatusApp">
@@ -82,7 +89,10 @@
                     class="d-flex w-100"
                     style="justify-content: space-around;"
                   >
-                    <small style="color: #858585; cursor: pointer;">
+                    <small
+                      style="color: #858585; cursor: pointer;"
+                      @click.prevent="DLGiveMe"
+                    >
                       <img
                         src="../../img/export.png"
                         class="dlCoinHomeImgS mr-2"
@@ -152,11 +162,14 @@
 </template>
 
 <script>
-import { Slider, SliderItem } from "vue-easy-slider";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import "../../../node_modules/swiper/css/swiper.css";
+import modals from "../popup/modal";
 export default {
   components: {
-    Slider,
-    SliderItem,
+    modals,
+    Swiper,
+    SwiperSlide,
   },
   data() {
     return {
@@ -176,11 +189,55 @@ export default {
       mMyPage: "ClickPointer",
       mMyPageNone: "MainIconSize",
       mMyPageColor: "d-none",
-      Slidelist: [],
-      sliderValue: 2,
+      Slidelist: [
+        {
+          class: "slide-1",
+          link: "https://youtu.be/qKtI7dmsIUk",
+        },
+        {
+          class: "slide-2",
+          link: "https://youtu.be/Skzr92mw80U",
+        },
+        {
+          class: "slide-3",
+          link: "https://youtu.be/ScH-eMK8VO4",
+        },
+        {
+          class: "slide-4",
+          link: "https://youtu.be/qKtI7dmsIUk",
+        },
+        {
+          class: "slide-5",
+          link: "https://youtu.be/Skzr92mw80U",
+        },
+      ],
+      swiperOption: {
+        spaceBetween: 0,
+        effect: "fade",
+        loop: true,
+        autoplay: {
+          delay: 5000,
+        },
+
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      },
     };
   },
   methods: {
+    DLGiveMe() {
+      this.$store.state.dealLogPopup = "";
+      this.$store.state.popupTitle = "딜링(DL) 주소보내기";
+      this.$store.state.popupMsg = "샘플데이터입니다.";
+      this.$store.state.popupStrong = this.$store.state.UserPoint.DilingID;
+      this.$store.state.code = "GiveMEDL";
+    },
     DLSEND() {
       this.$router.push("/DLSend");
     },
@@ -198,7 +255,7 @@ export default {
       });
     },
     MBuyLogRouter() {
-      this.$router.push("/BuyLog").catch((err) => {
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }
@@ -228,34 +285,9 @@ export default {
     pointCharge() {
       this.$router.push("/pointCharge");
     },
-  },
-  mounted() {
-    setTimeout(
-      () =>
-        (this.Slidelist = [
-          {
-            backgroundColor: "#3f51b5",
-            width: "100%",
-            height: "100%",
-          },
-          {
-            backgroundColor: "#eee",
-            width: "100%",
-            height: "100%",
-          },
-          {
-            backgroundColor: "#f44336",
-            width: "100%",
-            height: "100%",
-          },
-          {
-            backgroundColor: "#eee",
-            width: "100%",
-            height: "100%",
-          },
-        ]),
-      1000
-    );
+    link(link) {
+      window.open(link);
+    },
   },
 };
 </script>
@@ -402,6 +434,39 @@ p {
 .dlCoinHomeImgS {
   width: 25px;
 }
+.swiper {
+  height: 360px;
+  border-radius: 5px;
+}
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+}
+.slide-1 {
+  background: url(../../img/slide/cashcook1.png);
+  background-position: 50% center;
+  background-size: cover;
+}
+.slide-2 {
+  background: url(../../img/slide/cashcook2.png);
+  background-position: 50% center;
+  background-size: cover;
+}
+.slide-3 {
+  background: url(../../img/slide/cashcook3.png);
+  background-position: 50% center;
+  background-size: cover;
+}
+.slide-4 {
+  background: url(../../img/slide/cashcook4.png);
+  background-position: 50% center;
+  background-size: cover;
+}
+.slide-5 {
+  background: url(../../img/slide/cashcook5.png);
+  background-position: 50% center;
+  background-size: cover;
+}
 @media screen and (max-width: 900px) {
   .MNav {
     width: 100%;
@@ -414,6 +479,9 @@ p {
     max-width: 720px;
     width: 100%;
     padding: 0px 16px;
+  }
+  .swiper {
+    height: 275px;
   }
 }
 </style>

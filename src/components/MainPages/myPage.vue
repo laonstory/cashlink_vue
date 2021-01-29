@@ -216,7 +216,7 @@ export default {
       });
     },
     MBuyLogRouter() {
-      this.$router.push("/BuyLog").catch((err) => {
+      this.$router.push("/BuyLog/DealSell").catch((err) => {
         if (err.name === "NavigationDuplicated") {
           console.log("중첩");
         }

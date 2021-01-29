@@ -24,6 +24,10 @@ import samja from "@/components/SubPages/terms/samja";
 import UserInfoLaw from "@/components/SubPages/terms/UserInfoLaw";
 import UserInfoPut from "@/components/SubPages/terms/UserInfoPut";
 import PointCharge from "@/components/SubPages/pointCharge";
+import DealSell from "@/components/MainPages/dealLog/sell";
+import DealBuy from "@/components/MainPages/dealLog/buy";
+import DealSend from "@/components/MainPages/dealLog/send";
+import DealPatch from "@/components/SubPages/marge/marge.vue";
 
 Vue.use(Router);
 
@@ -60,6 +64,13 @@ const router = new Router({
             title: "CashLink Deal Apply",
           },
         },
+        {
+          path: "patch",
+          component: DealPatch,
+          meta: {
+            title: "CashLink Deal Patch",
+          },
+        },
       ],
     },
     {
@@ -69,6 +80,29 @@ const router = new Router({
       meta: {
         title: "CashLink DealLog",
       },
+      children: [
+        {
+          path: "DealSell",
+          component: DealSell,
+          meta: {
+            title: "CashLink DealLogSell",
+          },
+        },
+        {
+          path: "DealBuy",
+          component: DealBuy,
+          meta: {
+            title: "CashLink DealLogBuy",
+          },
+        },
+        {
+          path: "DealSend",
+          component: DealSend,
+          meta: {
+            title: "CashLink DealLogSend",
+          },
+        },
+      ],
     },
     {
       path: "/Alram",
