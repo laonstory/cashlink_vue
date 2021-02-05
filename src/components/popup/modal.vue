@@ -166,7 +166,7 @@ export default {
           this.$store.state.popupMsg = "정상적으로 삭제되었습니다.";
           this.$store.state.popupStrong = "";
           this.$store.state.code = "removeSuccess";
-          this.$router.push("/BuyLog//DealSell");
+          this.$router.push("/BuyLog/DealSell");
         });
     },
     modalRejectSuccess() {

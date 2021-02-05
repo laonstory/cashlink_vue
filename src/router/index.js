@@ -28,6 +28,7 @@ import DealSell from "@/components/MainPages/dealLog/sell";
 import DealBuy from "@/components/MainPages/dealLog/buy";
 import DealSend from "@/components/MainPages/dealLog/send";
 import DealPatch from "@/components/SubPages/marge/marge.vue";
+import CLP from "@/components/SubPages/CLP";
 
 Vue.use(Router);
 
@@ -240,6 +241,14 @@ const router = new Router({
       component: PointCharge,
       meta: {
         title: "CashLink PointCharge",
+      },
+    },
+    {
+      path: "/Clp",
+      name: "CLP",
+      component: CLP,
+      meta: {
+        title: "CashLink CLP Point",
       },
     },
   ],

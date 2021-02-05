@@ -113,6 +113,9 @@ export default {
     };
   },
   async beforeMount() {
+    this.$store.state.dealLogSend.LogGrid = "d-none";
+    this.$store.state.dealLogSend.LogGrid2 = "LogGrid2";
+    this.$store.state.dealLogSend.SendFalse = "d-none";
     this.$store.state.dealLogSite.dealLogSell = "w-33Log fontThin";
     this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
     this.$store.state.dealLogSite.dealLogSend =

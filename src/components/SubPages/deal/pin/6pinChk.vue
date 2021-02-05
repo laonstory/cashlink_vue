@@ -16,7 +16,7 @@
     </div>
     <div class="PinsBox">
       <div class="w-100 h-100" style="display: flex;align-items: center;">
-        <div class="PinBox">
+        <div class="PinBox" style="margin-top: 3rem;">
           <div>
             <span>{{ Pintext }}</span>
           </div>
@@ -244,6 +244,9 @@ export default {
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
+  z-index: 12;
+  position: absolute;
+  top: 0;
 }
 .prevIcon {
   width: 24px;

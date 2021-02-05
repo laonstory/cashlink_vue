@@ -18,7 +18,12 @@
               <span>내역이 없습니다.</span>
             </div>
             <div v-else>
-              <span>내역 개발중</span>
+              <div>
+                <div
+                  v-for="(AlramList, index) in SampleData"
+                  :key="index"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
@@ -28,7 +33,31 @@
 </template>
 
 <script>
+import client from "../../auth/client";
 export default {
+  beforeMount() {
+    const LoginData = window.localStorage.getItem("auth");
+    client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+    client
+      .get("api/users/me/noti", {
+        page: this.page,
+      })
+      .then((res) => {
+        this.SampleData = this.SampleData.concat(res.data.data.markets);
+        this.limit = res.data.data.markets.length;
+        this.count = res.data.data.paging.count;
+        this.page += 1;
+        console.log(this.SampleData);
+      });
+  },
+  data() {
+    return {
+      SampleData: [],
+      limit: "",
+      count: "",
+      page: 0,
+    };
+  },
   methods: {
     prevBtn() {
       this.$router.go(-1);

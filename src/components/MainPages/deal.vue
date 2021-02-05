@@ -20,7 +20,7 @@
                     class="pointBoxImg"
                   />
                   <div class="h-75 ml-4">
-                    <small>금일 딜링 (DL) 평균시세</small>
+                    <small>금일 디엘 (DL) 평균시세</small>
                     <h5 style="margin-bottom: 4px; color: #2169FF;">70 KRW</h5>
                     <div class="CoinInfo">
                       <small>최소가 70KRW</small>
@@ -507,7 +507,7 @@ export default {
 .chargeBox {
   color: white;
   opacity: 0.6;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
 }
 .PointStatus {
@@ -859,6 +859,11 @@ export default {
     background: transparent;
     border-radius: 0;
   }
+  .SearchDataTitleBox2 {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
   .formDeal {
     margin-top: 0;
     padding: 0;
@@ -894,6 +899,11 @@ export default {
     max-width: 720px;
     width: 100%;
     padding: 0px 16px;
+  }
+}
+@media screen and(max-width: 420px) {
+  .chargeBox {
+    font-size: 12px !important;
   }
 }
 </style>

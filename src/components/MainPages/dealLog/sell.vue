@@ -25,8 +25,8 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
@@ -64,13 +64,13 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
             <div class="buyStatusInit approval">
-              <span>{{ SearchDataItems.seller.username }}</span>
+              <span>{{ SearchDataItems.purchase.buyer.username }}</span>
               <span
                 >구매신청받음 :
                 {{ momentDateStr2(SearchDataItems.updated_at) }}</span
@@ -110,13 +110,13 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
             <div class="buyStatusInit gray">
-              <span>{{ SearchDataItems.seller.username }}</span>
+              <span>{{ SearchDataItems.purchase.buyer.username }}</span>
               <span
                 >입금대기 중 :
                 {{ momentDateStr2(SearchDataItems.updated_at) }}</span
@@ -148,13 +148,13 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
             <div class="buyStatusInit gray">
-              <span>{{ SearchDataItems.seller.username }}</span>
+              <span>{{ SearchDataItems.purchase.buyer.username }}</span>
               <span
                 >입금완료 :
                 {{ momentDateStr2(SearchDataItems.updated_at) }}</span
@@ -186,13 +186,13 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
             <div class="buyStatusInit gray">
-              <span>{{ SearchDataItems.seller.username }}</span>
+              <span>{{ SearchDataItems.purchase.buyer.username }}</span>
               <span
                 >거래완료 :
                 {{ momentDateStr2(SearchDataItems.updated_at) }}</span
@@ -218,8 +218,8 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
@@ -246,8 +246,8 @@
                 {{ regexStr(SearchDataItems.quantity * SearchDataItems.price) }}
                 KRW(원)
               </span>
-              <span>딜링 수량</span>
-              <span>{{ regexStr(SearchDataItems.quantity) }} DL(딜링)</span>
+              <span>DL 수량</span>
+              <span>{{ regexStr(SearchDataItems.quantity) }} 디엘(DL)</span>
               <span>개당 가격</span>
               <span>{{ regexStr(SearchDataItems.price) }} KRW(원)</span>
             </div>
@@ -287,6 +287,9 @@ export default {
     };
   },
   beforeMount() {
+    this.$store.state.dealLogSend.LogGrid = "LogGrid";
+    this.$store.state.dealLogSend.LogGrid2 = "d-none";
+    this.$store.state.dealLogSend.SendFalse = "";
     this.$store.state.dealLogSite.dealLogSell =
       "w-33Log dealLogInnerRouterBorder fontBold";
     this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";

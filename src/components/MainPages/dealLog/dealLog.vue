@@ -48,7 +48,7 @@
                 </div>
                 <hr />
               </div>
-              <div class="LogGrid">
+              <div :class="$store.state.dealLogSend.LogGrid">
                 <select class="selectBoxDeal">
                   <option value="All">전체(기간)</option>
                   <option value="today">오늘</option>
@@ -65,7 +65,18 @@
                   <option value="finishOver">기간만료</option>
                 </select>
               </div>
-              <form>
+              <div :class="$store.state.dealLogSend.LogGrid2">
+                <select class="selectBoxDeal">
+                  <option value="All">전체(기간)</option>
+                  <option value="today">오늘</option>
+                  <option value="1week">1주일</option>
+                  <option value="1month">1개월</option>
+                  <option value="3month">3개월</option>
+                  <option value="6month">6개월</option>
+                  <option value="1year">1년</option>
+                </select>
+              </div>
+              <form :class="$store.state.dealLogSend.SendFalse">
                 <div class="mt-2 SearchBox">
                   <input
                     type="text"
@@ -81,11 +92,11 @@
                   </button>
                 </div>
               </form>
-              <div class="SearchDataTitleBox">
+              <div class="SearchDataTitleBox2">
                 <span style="font-size: 14px;">전체결과</span>
-                <select v-model="SearchDataSet" class="SearchDataSet">
+                <!-- <select v-model="SearchDataSet" class="SearchDataSet">
                   <option value="All">최신순</option>
-                </select>
+                </select> -->
               </div>
               <!-- <sell :class="$store.state.dealLogSite.dealSell" />
               <buy :class="$store.state.dealLogSite.dealBuy" />
@@ -200,6 +211,9 @@ export default {
         "w-33Log dealLogInnerRouterBorder fontBold";
       this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
       this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
+      this.$store.state.dealLogSend.LogGrid = "LogGrid";
+      this.$store.state.dealLogSend.LogGrid2 = "d-none";
+      this.$store.state.dealLogSend.SendFalse = "";
     },
     deallogRouterBuy() {
       this.$router.push("/BuyLog/DealBuy").catch((err) => {
@@ -214,6 +228,9 @@ export default {
       this.$store.state.dealLogSite.dealLogBuy =
         "w-33Log dealLogInnerRouterBorder fontBold";
       this.$store.state.dealLogSite.dealLogSend = "w-33Log fontThin";
+      this.$store.state.dealLogSend.LogGrid = "LogGrid";
+      this.$store.state.dealLogSend.LogGrid2 = "d-none";
+      this.$store.state.dealLogSend.SendFalse = "";
     },
     deallogRouterSend() {
       this.$router.push("/BuyLog/DealSend").catch((err) => {
@@ -228,6 +245,9 @@ export default {
       this.$store.state.dealLogSite.dealLogBuy = "w-33Log fontThin";
       this.$store.state.dealLogSite.dealLogSend =
         "w-33Log dealLogInnerRouterBorder fontBold";
+      this.$store.state.dealLogSend.LogGrid = "d-none";
+      this.$store.state.dealLogSend.LogGrid2 = "LogGrid2";
+      this.$store.state.dealLogSend.SendFalse = "d-none";
     },
     modalIn() {
       this.$store.state.dealLogPopup = "";
@@ -275,7 +295,7 @@ export default {
 .chargeBox {
   color: white;
   opacity: 0.6;
-  font-size: 14px;
+  font-size: 13px;
 }
 .PointStatus {
   color: white;
@@ -347,7 +367,7 @@ export default {
 .SearchInput:focus {
   outline: none;
 }
-.SearchDataTitleBox {
+.SearchDataTitleBox2 {
   width: 100%;
   height: 50px;
   display: flex;
@@ -480,6 +500,13 @@ hr {
 .LogGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 32px;
+  grid-gap: 1rem;
+  margin-top: 0.5rem;
+}
+.LogGrid2 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   grid-auto-rows: 32px;
   grid-gap: 1rem;
   margin-top: 0.5rem;

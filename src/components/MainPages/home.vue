@@ -32,21 +32,23 @@
                 v-for="(SlideList, index) in Slidelist"
                 :key="index"
                 :class="SlideList.class"
-                @click="link(SlideList.link)"
+                style="width: 100%;"
               >
+                <div class="CountSlide">{{ index + 1 }}/5</div>
+                <div class="LinkClick" @click="link(SlideList.link)" />
               </Swiper-slide>
-              <div
+              <!-- <div
                 class="swiper-pagination swiper-pagination-white"
                 slot="pagination"
-              ></div>
-              <div
+              ></div> -->
+              <!-- <div
                 class="swiper-button-prev swiper-button-white"
                 slot="button-prev"
               ></div>
               <div
                 class="swiper-button-next swiper-button-white"
                 slot="button-next"
-              ></div>
+              ></div> -->
             </Swiper>
             <div class="mt-3 myPointApp">
               <div class="PointBoxApp">
@@ -97,7 +99,7 @@
                         src="../../img/export.png"
                         class="dlCoinHomeImgS mr-2"
                       />
-                      딜링받기
+                      DL받기
                     </small>
                     <small
                       style="color: #858585; cursor: pointer;"
@@ -107,7 +109,7 @@
                         src="../../img/import.png"
                         class="dlCoinHomeImgS mr-2"
                       />
-                      딜링보내기
+                      DL보내기
                     </small>
                   </div>
                 </div>
@@ -233,7 +235,7 @@ export default {
   methods: {
     DLGiveMe() {
       this.$store.state.dealLogPopup = "";
-      this.$store.state.popupTitle = "딜링(DL) 주소보내기";
+      this.$store.state.popupTitle = "디엘(DL) 주소보내기";
       this.$store.state.popupMsg = "샘플데이터입니다.";
       this.$store.state.popupStrong = this.$store.state.UserPoint.DilingID;
       this.$store.state.code = "GiveMEDL";
@@ -293,10 +295,14 @@ export default {
 </script>
 
 <style>
+.LinkClick {
+  width: 100%;
+  height: 100%;
+}
 .chargeBox {
   color: white;
   opacity: 0.6;
-  font-size: 14px;
+  font-size: 13px;
 }
 .PointStatusApp {
   color: white;
@@ -466,6 +472,20 @@ p {
   background: url(../../img/slide/cashcook5.png);
   background-position: 50% center;
   background-size: cover;
+}
+.CountSlide {
+  position: absolute;
+  right: 0;
+  width: 32px;
+  height: 16px;
+  background: white;
+  opacity: 0.8;
+  border-radius: 3px;
+  margin: 8px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media screen and (max-width: 900px) {
   .MNav {

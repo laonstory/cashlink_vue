@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 h-100 PinBox">
+  <div class="w-100 h-100">
     <div class="PinNav">
       <span>
         <button class="prevBtn" @click.prevent="prevBtn">
@@ -11,7 +11,7 @@
     </div>
     <div class="PinsBox">
       <div class="w-100 h-100" style="display: flex;">
-        <div class="PinBox">
+        <div class="PinBox" style="margin-top: 5rem;">
           <div>
             <span>암호를 입력하세요.</span>
           </div>
@@ -100,7 +100,7 @@ export default {
           alert(
             "이미 핀이 생성되어 있습니다.\n수정은 회원정보 수정에서 핀번호를 수정해주세요."
           );
-          this.$router.push("/myPage/MyInfoChange");
+          this.$router.push("/MyInfoChange");
         }
       });
   },
@@ -166,7 +166,7 @@ export default {
         if (res.data.result == "1") {
           alert("핀이 성공적으로 발급되었습니다.");
           this.$store.state.UserInfo.checkPin = true;
-          this.$router.push("/myPage/MyInfoChange");
+          this.$router.push("/MyInfoChange");
         }
       });
     },

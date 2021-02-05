@@ -21,6 +21,8 @@
 import client from "../../../auth/client";
 export default {
   beforeMount() {
+    this.$store.state.Terms.termsHome = "d-none";
+    this.$store.state.Terms.termsHomeMenu = "d-none";
     const LoginData = window.localStorage.getItem("auth");
     client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
     client.get("/api/infos/terms/privacy").then((res) => {
@@ -35,6 +37,8 @@ export default {
   methods: {
     prevBtn() {
       this.$router.go(-1);
+      this.$store.state.Terms.termsHome = "AlramNav";
+      this.$store.state.Terms.termsHomeMenu = "mt-3 alramsBox";
     },
     serviceTerms() {},
     moneyTerms() {},

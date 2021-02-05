@@ -44,6 +44,7 @@ export default {
   methods: {
     modalExit() {
       this.$store.state.dealSellSuccess.class = "d-none";
+      this.$store.state.dealSell.class = "d-none";
       this.$router.push("/BuyLog/DealSell");
     },
   },

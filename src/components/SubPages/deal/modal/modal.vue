@@ -60,7 +60,16 @@ export default {
       this.$store.state.dealSell.class = "d-none";
     },
     modalSure() {
-      this.PinChkStyle = "";
+      if (!this.$store.state.UserInfo.checkPin) {
+        alert(
+          "핀이 생성되어 있지 않습니다.\n마이페이지에서 핀생성 후 다시 시도해주세요."
+        );
+        this.$store.state.dealSell.class = "d-none";
+        this.$router.push("/MyInfoChange");
+      } else {
+        this.PinChkStyle = "";
+      }
+      // this.$store.state.dealSell.class = "d-none";
     },
   },
 };

@@ -27,7 +27,7 @@
             <span></span>
           </div>
           <div class="mt-3 alramsBox">
-            <span class="dealBoxTitle">DL(딜링)</span>
+            <span class="dealBoxTitle">디엘(DL)</span>
             <div class="DLline" />
             <div class="myDealPoint">
               <span>보유수량</span>
@@ -55,6 +55,11 @@
                   <button @click.prevent="TenTh">+1만개</button>
                   <button @click.prevent="FiveTh">+5천개</button>
                   <button @click.prevent="OneTh">+1천개</button>
+                </div>
+              </div>
+              <div v-if="DLCount % 100" class="FlexEndBox">
+                <div style="text-align: right; color: #888; font-weight: 300;">
+                  <p style="color: red;">100단위 숫자만 입력가능합니다.</p>
                 </div>
               </div>
             </div>
@@ -106,8 +111,12 @@
               <div class=" mb-2 FlexEndBox">
                 <div style="text-align: right; color: #888; font-weight: 300;">
                   <p>판매 수수료 : {{ DLCount * DLPrice * 0.005 }} CLP</p>
-                  <div v-if="$store.state.UserPoint.OriginalCoinPoint < 10">
-                    <p>CLP가 부족합니다. CLP를 충전해주세요.</p>
+                  <!-- prettier-ignore -->
+                  <div
+                    v-if="
+                      this.$store.state.UserPoint.OriginalCoinPoint < DLCount * DLPrice * 0.005"
+                  >
+                    <p style="color: red;">CLP가 부족합니다. CLP를 충전해주세요.</p>
                   </div>
                 </div>
               </div>
@@ -149,16 +158,17 @@ export default {
     },
     AllBtn() {
       let myDL = parseInt(this.$store.state.UserPoint.OriginalPoint);
-      this.DLCount = myDL;
+      let myDLCount = parseInt(myDL / 100);
+      this.DLCount = myDLCount * 100;
     },
     TenTh() {
-      this.DLCount += 10000;
+      this.DLCount = this.DLCount + 10000;
     },
     FiveTh() {
-      this.DLCount += 5000;
+      this.DLCount = this.DLCount + 5000;
     },
     OneTh() {
-      this.DLCount += 1000;
+      this.DLCount = this.DLCount + 1000;
     },
     plusBtn() {
       if (this.DLPrice >= 90) {
@@ -179,7 +189,19 @@ export default {
       this.DLPrice = 70;
     },
     sellMyDL() {
-      this.$store.state.dealSell.class = "";
+      if (this.DLCount % 100) {
+        alert("판매하실려는 DL이 100단위가 아닙니다.");
+      } else if (this.DLCount > this.$store.state.UserPoint.OriginalPoint) {
+        alert("가지고 계신 DL보다 입력하신 DL이 더 많습니다.\n낮춰주십시오.");
+      } else if (
+        this.$store.state.UserPoint.OriginalCoinPoint <
+        this.DLCount * this.DLPrice * 0.005
+      ) {
+        alert("CLP가 부족합니다.\nCLP를 충전 후 다시 시도해주세요.");
+        this.$router.push("/pointCharge");
+      } else {
+        this.$store.state.dealSell.class = "";
+      }
     },
   },
 };
@@ -325,7 +347,7 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-gap: 0.5rem;
 }
 .KRWBox {
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: flex-end;
   color: #888;
@@ -377,7 +399,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: fixed;
   z-index: 6;
   background-color: #eee;
-  top: 73px;
+  top: 70px;
 }
 @media screen and (max-width: 900px) {
   .myPage {

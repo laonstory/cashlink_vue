@@ -3,7 +3,7 @@
     <div class="myPageSize">
       <div class="MyPageBox" style="border-radius: 10px;">
         <router-view></router-view>
-        <div class="AlramNav">
+        <div :class="$store.state.Terms.termsHome">
           <span>
             <button class="prevBtn" @click.prevent="prevBtn">
               <img src="../../img/prev.png" alt="" class="prevIcon" />
@@ -12,7 +12,7 @@
           <span class="AlramTitle">약관 및 정책</span>
           <span></span>
         </div>
-        <div class="mt-3 alramsBox">
+        <div :class="$store.state.Terms.termsHomeMenu">
           <div class="w-100 h-100">
             <div class="noticeMy" @click.prevent="serviceTerms">
               <span>서비스 이용약관</span>
@@ -73,24 +73,40 @@
 
 <script>
 export default {
+  data() {
+    return {
+      termsHome: "AlramNav",
+      termsHomeMenu: "mt-3 alramsBox",
+    };
+  },
   methods: {
     prevBtn() {
       this.$router.go(-1);
     },
     serviceTerms() {
       this.$router.push("/terms/ServiceTerms");
+      this.$store.state.Terms.termsHome = "d-none";
+      this.$store.state.Terms.termsHomeMenu = "d-none";
     },
     moneyTerms() {
       this.$router.push("/terms/moneyTerms");
+      this.$store.state.Terms.termsHome = "d-none";
+      this.$store.state.Terms.termsHomeMenu = "d-none";
     },
     myInfoLaw() {
       this.$router.push("/terms/UserInfoLaw");
+      this.$store.state.Terms.termsHome = "d-none";
+      this.$store.state.Terms.termsHomeMenu = "d-none";
     },
     putUserInfoLaw() {
       this.$router.push("/terms/UserInfoPut");
+      this.$store.state.Terms.termsHome = "d-none";
+      this.$store.state.Terms.termsHomeMenu = "d-none";
     },
     samJa() {
       this.$router.push("/terms/samja");
+      this.$store.state.Terms.termsHome = "d-none";
+      this.$store.state.Terms.termsHomeMenu = "d-none";
     },
   },
 };

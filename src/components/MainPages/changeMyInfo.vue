@@ -114,6 +114,16 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="AccountRemove mt-4"
+                @click.prevent="accountRemoveRouter"
+              >
+                <div class="w-100">
+                  <div class="accountRemoveBtn">
+                    <span>회원을 탈퇴하시겠습니까?</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -178,6 +188,9 @@ export default {
     bankProof() {
       alert("준비중인 기능입니다.");
     },
+    accountRemoveRouter() {
+      alert("준비중인 기능입니다.");
+    },
   },
 };
 </script>
@@ -238,5 +251,16 @@ export default {
   align-items: center;
   color: #888;
   font-weight: 400;
+}
+.accountRemoveBtn {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 300;
+  color: #888;
+  cursor: pointer;
 }
 </style>

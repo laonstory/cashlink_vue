@@ -17,7 +17,7 @@
               <span class="alramsBoxTitle1">받는사람</span>
               <div class="DlsendLine mt-1" />
               <div>
-                <div class="mt-2">
+                <div class="mt-2 d-flex">
                   <select
                     v-model="searchUser"
                     class="DLSendSel mr-2"
@@ -37,7 +37,7 @@
                     <img
                       src="../../img/search.png"
                       alt=""
-                      class="SearchIconInner"
+                      class="SearchIconInner2"
                       @click.prevent="SearchUser"
                     />
                   </button>
@@ -142,6 +142,12 @@ export default {
 </script>
 
 <style>
+.SearchIconInner2 {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  width: 30px;
+}
 .DLsendBtn {
   width: 100%;
   height: 100%;
@@ -212,7 +218,7 @@ export default {
   color: #444;
 }
 .SearchInputDL {
-  width: 78%;
+  width: 79%;
   height: 40px;
   border: 1px solid #ddd;
   text-align: right;

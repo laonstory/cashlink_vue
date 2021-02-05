@@ -80,7 +80,7 @@
               <img src="../../img/small-arrow.png" alt="" class="right-Arrow" />
             </span>
           </div>
-          <div class="CLPMy" @click.prevent="noticeBtn">
+          <div class="CLPMy" @click.prevent="CLPAccount">
             <div>
               <img src="../../img/cl_point.png" class="clplogo" />
               <span class="ml-2">CLP관리</span>
@@ -247,6 +247,9 @@ export default {
     },
     termsInfo() {
       this.$router.push("/terms");
+    },
+    CLPAccount() {
+      this.$router.push("/Clp");
     },
   },
 };

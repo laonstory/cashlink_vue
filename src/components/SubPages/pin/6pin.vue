@@ -11,7 +11,7 @@
     </div>
     <div class="PinsBox">
       <div class="w-100 h-100" style="display: flex;">
-        <div class="PinBox">
+        <div class="PinBox" style="margin-top: 5rem;">
           <div>
             <span>{{ Pintext }}</span>
           </div>
@@ -91,7 +91,21 @@ export default {
     PinNum: function() {
       if (this.PinNum.length >= 6) {
         if (this.check) {
-          alert("ㅇㅇ 나도 잘 입력했음. 이제 유출의 시간만 남았다! ");
+          let PinData = this.PinNum.join("");
+          const LoginData = window.localStorage.getItem("auth");
+          client.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${LoginData}`;
+          client
+            .patch("/api/users/me/pin", {
+              password: PinData,
+            })
+            .then((res) => {
+              if (res.data.result == "1") {
+                alert("핀 암호 수정이 완료되었습니다.");
+                this.$router.push("/MyInfoChange");
+              }
+            });
         } else {
           this.PinChk();
         }

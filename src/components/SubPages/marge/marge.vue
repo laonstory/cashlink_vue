@@ -27,7 +27,7 @@
             <span></span>
           </div>
           <div class="mt-3 alramsBox">
-            <span class="dealBoxTitle">DL(딜링)</span>
+            <span class="dealBoxTitle">디엘(DL)</span>
             <div class="DLline" />
             <div class="myDealPoint">
               <span>보유수량</span>
@@ -328,13 +328,13 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: right;
 }
 .DLplusBox {
-  width: 50%;
+  width: 70%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.5rem;
 }
 .KRWBox {
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: flex-end;
   color: #888;
@@ -386,7 +386,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: fixed;
   z-index: 6;
   background-color: #eee;
-  top: 73px;
+  top: 70px;
 }
 @media screen and (max-width: 900px) {
   .myPage {

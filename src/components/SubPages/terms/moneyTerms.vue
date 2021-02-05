@@ -12,7 +12,9 @@
       </div>
       <div class="mt-3 alramsBox">
         <div class="w-100 h-100">
-          <p>{{ Text }}</p>
+          <div v-for="(MoneyTerms, index) in splitString(Text)" :key="index">
+            <p>{{ MoneyTerms }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -23,6 +25,8 @@
 import client from "../../../auth/client";
 export default {
   beforeMount() {
+    this.$store.state.Terms.termsHome = "d-none";
+    this.$store.state.Terms.termsHomeMenu = "d-none";
     const LoginData = window.localStorage.getItem("auth");
     client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
     client.get("/api/infos/terms/e-financial").then((res) => {
@@ -37,6 +41,11 @@ export default {
   methods: {
     prevBtn() {
       this.$router.go(-1);
+      this.$store.state.Terms.termsHome = "AlramNav";
+      this.$store.state.Terms.termsHomeMenu = "mt-3 alramsBox";
+    },
+    splitString(text) {
+      return text.split("\n");
     },
     serviceTerms() {},
     moneyTerms() {},
@@ -53,7 +62,6 @@ export default {
   width: 100%;
   max-width: 659px;
   height: 50% !important;
-  position: absolute;
 }
 .AlramNav {
   width: 60%;
@@ -99,7 +107,8 @@ export default {
     background: white;
     width: 100%;
     max-width: 695px;
-    height: 50% !important;
+    height: 100%;
+    min-height: calc(100vh - 53px);
     position: absolute;
   }
 }

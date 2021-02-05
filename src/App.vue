@@ -102,92 +102,156 @@
     </div>
 
     <router-view class="routerViewSize"></router-view>
-    <!-- <div class="navBoxS">
-      <div class="navBarM">
-        <div class="mobileMenu">
-          <span :class="Mhome" @click.prevent="MhomeRouter">
-            <img src="./img/home.png" alt="" :class="MhomeNone" />
-            <img src="./img/home-color.png" alt="" :class="MhomeColor" />
-            홈
-          </span>
-          <span :class="MBuy" @click.prevent="MBuyRouter">
-            <img src="./img/deal.png" alt="" :class="MBuyNone" />
-            <img src="./img/deal-color.png" alt="" :class="MbuyColor" />
-            거래하기
-          </span>
-          <span :class="MBuyLog" @click.prevent="MBuyLogRouter">
-            <img src="./img/list.png" alt="" :class="MBuyLogNone" />
-            <img src="./img/list-color.png" alt="" :class="MBuyLogColor" />
-            거래내역
-          </span>
-          <span :class="mMyPage" @click.prevent="mMyPageRouter">
-            <img src="./img/mypage.png" alt="" :class="mMyPageNone" />
-            <img src="./img/mypage-color.png" alt="" :class="mMyPageColor" />
-            마이페이지
-          </span>
-        </div>
-      </div>
-    </div> -->
-    <!-- <Loading :loading="LoadingStatus" /> -->
   </div>
 </template>
 
 <script>
 import client from "./auth/client";
-// import Loading from "./components/SubPages/loadingPage/loading";
-// import bus from "./utils/bus";
+import auth from "./auth/auth";
 export default {
   name: "App",
   components: {
     // Loading,
   },
   beforeMount() {
-    const auth = window.localStorage.getItem("auth");
-    if (auth) {
-      const LoginData = auth;
-      client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
-      client
-        .get("/api/users/me")
-        .catch((err) => {
-          console.log(err.response.data);
-          if (
-            err.response.data.resultCode == "api.error.credentials_is_invalid"
-          ) {
-            alert("로그인 세션이 만료되었습니다.\n 다시 로그인 해주십시오.");
-            document.location.replace(
-              `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
-            );
-          }
-        })
-        .then((res) => {
-          this.$store.state.UserInfo.Name = res.data.data.user.name;
-          this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
-          this.$store.state.UserPoint.DilingID = res.data.data.account[0].id;
-          this.$store.state.UserInfo.UserForNum = res.data.data.account[0].id;
-          this.$store.state.UserInfo.checkPin = res.data.data.other.check_pin;
-          this.$store.state.UserInfo.SecurityLevel =
-            res.data.data.user.security_level;
+    setTimeout(() => {
+      if (window.localStorage.getItem("auth")) {
+        const LoginData = window.localStorage.getItem("auth");
+        client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+        client
+          .get("/api/users/me")
+          .then((res) => {
+            this.$store.state.UserInfo.Name = res.data.data.user.name;
+            this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
+            this.$store.state.UserPoint.DilingID = res.data.data.account[0].id;
+            this.$store.state.UserInfo.UserForNum = res.data.data.account[0].id;
+            this.$store.state.UserInfo.checkPin = res.data.data.other.check_pin;
+            this.$store.state.UserInfo.SecurityLevel =
+              res.data.data.user.security_level;
 
-          let DilingPoint = res.data.data.account[0].quantity;
-          this.$store.state.UserPoint.DilingPoint = this.priceToString(
-            Math.round(DilingPoint)
+            let DilingPoint = res.data.data.account[0].quantity;
+            this.$store.state.UserPoint.DilingPoint = this.priceToString(
+              Math.round(DilingPoint)
+            );
+            this.$store.state.UserPoint.OriginalPoint = Math.round(DilingPoint);
+            this.$store.state.UserPoint.CoinPointID =
+              res.data.data.account[1].id;
+            let CointPoint = res.data.data.account[1].quantity;
+            this.$store.state.UserPoint.CointPoint = this.priceToString(
+              Math.round(CointPoint)
+            );
+            this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
+              CointPoint
+            );
+            this.$store.state.UserInfo.isLoginIn = true;
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            if (
+              err.response.data.resultCode == "api.error.credentials_is_invalid"
+            ) {
+              this.$store.state.UserInfo.refresh = true;
+              if (this.$store.state.UserInfo.refresh) {
+                const LoginData = window.localStorage.getItem("auth");
+                auth.defaults.headers.common[
+                  "Authorization"
+                ] = `Bearer ${LoginData}`;
+                let authData = new FormData();
+                authData.append("client_id", process.env.VUE_APP_CLIENT_ID);
+                authData.append(
+                  "client_secret",
+                  process.env.VUE_APP_ENCRYPT_KEY
+                );
+                authData.append(
+                  "grant_type",
+                  process.env.VUE_APP_REFRESH_GRANT_TYPE
+                );
+                authData.append(
+                  "refresh_token",
+                  window.localStorage.getItem("refresh")
+                );
+                authData.append("scope", "read write");
+                auth
+                  .post("/oauth/token", authData)
+                  .then((res) => {
+                    window.localStorage.setItem("auth", res.data.access_token);
+                    window.localStorage.setItem(
+                      "refresh",
+                      res.data.refresh_token
+                    );
+                    setTimeout(() => {
+                      location.reload();
+                    }, 1000);
+                  })
+                  .catch((err) => {
+                    if (err.response.data.error == "invalid_token") {
+                      alert("세션이 만료되었습니다. 다시 로그인 해주십시오.");
+                      document.location.replace(
+                        `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
+                      );
+                    }
+                  });
+              }
+            }
+          });
+      } else {
+        const auth = window.localStorage.getItem("auth");
+        if (auth) {
+          const LoginData = auth;
+          client.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${LoginData}`;
+          client
+            .get("/api/users/me")
+            .catch((err) => {
+              console.log(err.response.data);
+              if (
+                err.response.data.resultCode ==
+                "api.error.credentials_is_invalid"
+              ) {
+                alert("인증이 유효하지 않습니다.");
+                document.location.replace(
+                  `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
+                );
+              }
+            })
+            .then((res) => {
+              this.$store.state.UserInfo.Name = res.data.data.user.name;
+              this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
+              this.$store.state.UserPoint.DilingID =
+                res.data.data.account[0].id;
+              this.$store.state.UserInfo.UserForNum =
+                res.data.data.account[0].id;
+              this.$store.state.UserInfo.checkPin =
+                res.data.data.other.check_pin;
+              this.$store.state.UserInfo.SecurityLevel =
+                res.data.data.user.security_level;
+
+              let DilingPoint = res.data.data.account[0].quantity;
+              this.$store.state.UserPoint.DilingPoint = this.priceToString(
+                Math.round(DilingPoint)
+              );
+              this.$store.state.UserPoint.OriginalPoint = Math.round(
+                DilingPoint
+              );
+              this.$store.state.UserPoint.CoinPointID =
+                res.data.data.account[1].id;
+              let CointPoint = res.data.data.account[1].quantity;
+              this.$store.state.UserPoint.CointPoint = this.priceToString(
+                Math.round(CointPoint)
+              );
+              this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
+                CointPoint
+              );
+              this.$store.state.UserInfo.isLoginIn = true;
+            });
+        } else {
+          document.location.replace(
+            `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
           );
-          this.$store.state.UserPoint.OriginalPoint = Math.round(DilingPoint);
-          this.$store.state.UserPoint.CoinPointID = res.data.data.account[1].id;
-          let CointPoint = res.data.data.account[1].quantity;
-          this.$store.state.UserPoint.CointPoint = this.priceToString(
-            Math.round(CointPoint)
-          );
-          this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
-            CointPoint
-          );
-          this.$store.state.UserInfo.isLoginIn = true;
-        });
-    } else {
-      document.location.replace(
-        `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
-      );
-    }
+        }
+      }
+    }, 1000);
 
     // ================
     // ===  브라우저 검증
@@ -205,10 +269,6 @@ export default {
     // bus.$on("start:spinner", this.startSpinner);
     // bus.$on("end:spinner", this.endSpinner);
   },
-  // beforeDestroy() {
-  //   bus.$off("start:spinner");
-  //   bus.$off("end:spinner");
-  // },
   data() {
     return {
       Mhome: "Color2233 ClickPointer",
@@ -336,7 +396,7 @@ export default {
 
 <style>
 body {
-  min-width: 390px;
+  min-width: 375px;
 }
 * {
   font-family: "Noto Sans KR", sans-serif;
@@ -365,7 +425,7 @@ select:focus {
 }
 .navBox {
   width: 100%;
-  height: 9%;
+  height: 70px;
   display: flex;
   justify-content: center;
   background-color: white;
@@ -374,7 +434,7 @@ select:focus {
 }
 .navSize {
   width: 800px;
-  height: 9%;
+  height: 70px;
   position: fixed;
   background-color: white;
 }

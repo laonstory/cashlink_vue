@@ -175,68 +175,76 @@ export default {
       }
     },
     testmode() {
-      const data = new FormData();
-      data.append("amount", this.CLPCount.toString());
-      const LoginData = window.localStorage.getItem("auth");
-      client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
-      client
-        .post("/api/markets/charge/cp", data)
-        .catch(() => {
-          alert("DB연결이 원할하지 않습니다.");
-        })
-        .then(() => {
-          alert("충전이 정상적으로 완료되었습니다.");
-          this.$router.push("/");
-          const auth = window.localStorage.getItem("auth");
-          const LoginData = auth;
-          client.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${LoginData}`;
-          client
-            .get("/api/users/me")
-            .catch((err) => {
-              console.log(err.response.data);
-              if (
-                err.response.data.resultCode ==
-                "api.error.credentials_is_invalid"
-              ) {
-                alert(
-                  "로그인 세션이 만료되었습니다.\n 다시 로그인 해주십시오."
-                );
-                document.location.replace(
-                  `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
-                );
-              }
-            })
-            .then((res) => {
-              this.$store.state.UserInfo.Name = res.data.data.user.name;
-              this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
-              this.$store.state.UserPoint.DilingID =
-                res.data.data.account[0].id;
-              this.$store.state.UserInfo.checkPin =
-                res.data.data.other.check_pin;
-              this.$store.state.UserInfo.SecurityLevel =
-                res.data.data.user.security_level;
+      if (!this.CLPCount) {
+        alert("충전할 CLP포인트를 입력해주세요.");
+      } else if (this.CLPCount < 30000) {
+        alert("30000CLP부터 충전이 가능합니다.");
+      } else if (this.SamjaChk == false) {
+        alert("개인정보를 제 3자에게 제공하는 것에 동의하셔야 합니다.");
+      } else if (this.PurchaseOption == "card") {
+        const data = new FormData();
+        data.append("amount", this.CLPCount.toString());
+        const LoginData = window.localStorage.getItem("auth");
+        client.defaults.headers.common["Authorization"] = `Bearer ${LoginData}`;
+        client
+          .post("/api/markets/charge/cp", data)
+          .catch(() => {
+            alert("DB연결이 원할하지 않습니다.");
+          })
+          .then(() => {
+            alert("충전이 정상적으로 완료되었습니다.");
+            this.$router.push("/");
+            const auth = window.localStorage.getItem("auth");
+            const LoginData = auth;
+            client.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${LoginData}`;
+            client
+              .get("/api/users/me")
+              .catch((err) => {
+                console.log(err.response.data);
+                if (
+                  err.response.data.resultCode ==
+                  "api.error.credentials_is_invalid"
+                ) {
+                  alert(
+                    "로그인 세션이 만료되었습니다.\n 다시 로그인 해주십시오."
+                  );
+                  document.location.replace(
+                    `${process.env.VUE_APP_AUTH_API_BASE}/oauth/authorize?client_id=cashlink&redirect_uri=${process.env.VUE_APP_REDIRECT_URI}&response_type=code`
+                  );
+                }
+              })
+              .then((res) => {
+                this.$store.state.UserInfo.Name = res.data.data.user.name;
+                this.$store.state.UserInfo.UserForNum = res.data.data.user.id;
+                this.$store.state.UserPoint.DilingID =
+                  res.data.data.account[0].id;
+                this.$store.state.UserInfo.checkPin =
+                  res.data.data.other.check_pin;
+                this.$store.state.UserInfo.SecurityLevel =
+                  res.data.data.user.security_level;
 
-              let DilingPoint = res.data.data.account[0].quantity;
-              this.$store.state.UserPoint.DilingPoint = this.priceToString(
-                Math.round(DilingPoint)
-              );
-              this.$store.state.UserPoint.OriginalPoint = Math.round(
-                DilingPoint
-              );
-              this.$store.state.UserPoint.CoinPointID =
-                res.data.data.account[1].id;
-              let CointPoint = res.data.data.account[1].quantity;
-              this.$store.state.UserPoint.CointPoint = this.priceToString(
-                Math.round(CointPoint)
-              );
-              this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
-                CointPoint
-              );
-              this.$store.state.UserInfo.isLoginIn = true;
-            });
-        });
+                let DilingPoint = res.data.data.account[0].quantity;
+                this.$store.state.UserPoint.DilingPoint = this.priceToString(
+                  Math.round(DilingPoint)
+                );
+                this.$store.state.UserPoint.OriginalPoint = Math.round(
+                  DilingPoint
+                );
+                this.$store.state.UserPoint.CoinPointID =
+                  res.data.data.account[1].id;
+                let CointPoint = res.data.data.account[1].quantity;
+                this.$store.state.UserPoint.CointPoint = this.priceToString(
+                  Math.round(CointPoint)
+                );
+                this.$store.state.UserPoint.OriginalCoinPoint = Math.round(
+                  CointPoint
+                );
+                this.$store.state.UserInfo.isLoginIn = true;
+              });
+          });
+      }
     },
     iamPort() {
       if (!this.CLPCount) {
@@ -521,7 +529,7 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: right;
 }
 .DLplusBox {
-  width: 50%;
+  width: 70%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.5rem;
